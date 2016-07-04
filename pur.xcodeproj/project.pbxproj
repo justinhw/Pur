@@ -15,6 +15,9 @@
 		E80268501D24315A00EB5BD5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E802684E1D24315A00EB5BD5 /* LaunchScreen.storyboard */; };
 		E802685B1D24315A00EB5BD5 /* purTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E802685A1D24315A00EB5BD5 /* purTests.m */; };
 		E80268661D24315A00EB5BD5 /* purUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E80268651D24315A00EB5BD5 /* purUITests.m */; };
+		E8D74DCF1D2AD93100D4608B /* unirest-obj-c-master in Resources */ = {isa = PBXBuildFile; fileRef = E8D74DCE1D2AD93100D4608B /* unirest-obj-c-master */; };
+		E8D74DD61D2ADC4400D4608B /* Unirest in Resources */ = {isa = PBXBuildFile; fileRef = E8D74DD51D2ADC4400D4608B /* Unirest */; };
+		E8D74DD91D2ADD0F00D4608B /* Unirest in Sources */ = {isa = PBXBuildFile; fileRef = E8D74DD51D2ADC4400D4608B /* Unirest */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +54,8 @@
 		E80268611D24315A00EB5BD5 /* purUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = purUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E80268651D24315A00EB5BD5 /* purUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = purUITests.m; sourceTree = "<group>"; };
 		E80268671D24315A00EB5BD5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E8D74DCE1D2AD93100D4608B /* unirest-obj-c-master */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "unirest-obj-c-master"; path = "/Users/justinwong/Desktop/unirest-obj-c-master"; sourceTree = "<absolute>"; };
+		E8D74DD51D2ADC4400D4608B /* Unirest */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Unirest; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +106,7 @@
 		E802683F1D24315A00EB5BD5 /* pur */ = {
 			isa = PBXGroup;
 			children = (
+				E8D74DD51D2ADC4400D4608B /* Unirest */,
 				E80268431D24315A00EB5BD5 /* AppDelegate.h */,
 				E80268441D24315A00EB5BD5 /* AppDelegate.m */,
 				E80268461D24315A00EB5BD5 /* ViewController.h */,
@@ -247,6 +253,8 @@
 				E80268501D24315A00EB5BD5 /* LaunchScreen.storyboard in Resources */,
 				E802684D1D24315A00EB5BD5 /* Assets.xcassets in Resources */,
 				E802684B1D24315A00EB5BD5 /* Main.storyboard in Resources */,
+				E8D74DD61D2ADC4400D4608B /* Unirest in Resources */,
+				E8D74DCF1D2AD93100D4608B /* unirest-obj-c-master in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,6 +279,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E8D74DD91D2ADD0F00D4608B /* Unirest in Sources */,
 				E80268481D24315A00EB5BD5 /* ViewController.m in Sources */,
 				E80268451D24315A00EB5BD5 /* AppDelegate.m in Sources */,
 				E80268421D24315A00EB5BD5 /* main.m in Sources */,
@@ -423,6 +432,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
+				VALID_ARCHS = "x86_64 arm64 armv7 armv7s";
 			};
 			name = Debug;
 		};
@@ -439,6 +449,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
+				VALID_ARCHS = "x86_64 arm64 armv7 armv7s";
 			};
 			name = Release;
 		};
