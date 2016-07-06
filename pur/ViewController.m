@@ -130,7 +130,7 @@ AVCaptureStillImageOutput *still_image_output;
     
     NSError *error;
     
-    NSDictionary *headers = @{@"mashape-k   ey": mashape_key, @"Content-Type": @"application/x-www-form-urlencoded", @"Accept": @"application/json"};
+    NSDictionary *headers = @{@"mashape-key": mashape_key, @"Content-Type": @"application/x-www-form-urlencoded", @"Accept": @"application/json"};
     NSDictionary *parameters = @{@"focus[x]": @"480", @"focus[y]": @"640", @"image_request[altitude]": @"27.912109375", @"image_request[language]": @"en", @"image_request[latitude]": @"35.8714220766008", @"image_request[locale]": @"en_US", @"image_request[longitude]": @"14.3583203002251", @"image_request[remote_image_url]": img_url};
     NSData *parameters_json =[NSJSONSerialization dataWithJSONObject:parameters options:NSJSONWritingPrettyPrinted error:&error];
     
@@ -159,7 +159,8 @@ AVCaptureStillImageOutput *still_image_output;
     NSString *mashape_key = @"horcs5Q9Ddmsh1lzJ9dhI2q2h3D1p1cvrI0jsnYzNbOKZ4M16r";
     
     NSDictionary *headers = @{@"mashape-key": @"horcs5Q9Ddmsh1lzJ9dhI2q2h3D1p1cvrI0jsnYzNbOKZ4M16r", @"Accept": @"application/json"};
-    NSString *url = @"https://camfind.p.mashape.com/image_responses/9JKAWHKGLjqMdDKDNIJQfg";
+    //fix this...{token} value & {mashape-key value}
+    NSString *url = @"https://camfind.p.mashape.com/image_responses/9JKAWHKGLjqMdDKDNIJQfg?mashape-key=horcs5Q9Ddmsh1lzJ9dhI2q2h3D1p1cvrI0jsnYzNbOKZ4M16r";
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
     
     [NSURLConnection sendAsynchronousRequest:request
@@ -174,16 +175,6 @@ AVCaptureStillImageOutput *still_image_output;
              NSLog(@"failed");
          }
      }];
-    
-//    UNIUrlConnection *asyncConnection = [[UNIRest get:^(UNISimpleRequest *request) {
-//        [request setUrl:@"https://camfind.p.mashape.com/image_responses/9JKAWHKGLjqMdDKDNIJQfg"];
-//        [request setHeaders:headers];
-//    }] asJsonAsync:^(UNIHTTPJsonResponse *response, NSError *error) {
-//        NSInteger code = response.code;
-//        NSDictionary *responseHeaders = response.headers;
-//        UNIJsonNode *body = response.body;
-//        NSData *rawBody = response.rawBody;
-//    }];
 }
 
 - (void)test2 {
