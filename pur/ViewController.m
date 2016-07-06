@@ -179,7 +179,7 @@ NSArray *compost_terms;
 #pragma mark - Reverse Image Search API
 
 - (NSString*)getTokenWithImgData:(NSString *)imgDataAsString {
-    
+    NSString *token;
     NSString *url = @"https://camfind.p.mashape.com/image_requests";
     NSString *headers = @"?mashape-key=horcs5Q9Ddmsh1lzJ9dhI2q2h3D1p1cvrI0jsnYzNbOKZ4M16r";
     NSString *requestUrl = [NSString stringWithFormat:@"%@%@", url, headers];
@@ -200,12 +200,11 @@ NSArray *compost_terms;
      {
          if (data.length > 0 && connectionError == nil)
          {
-             NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-             NSLog(string);
+             __block token = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
          }
      }];
     
-    return @"9JKAWHKGLjqMdDKDNIJQfg";
+    return token;
     }
 
 
