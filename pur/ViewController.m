@@ -86,9 +86,9 @@ AVCaptureStillImageOutput *still_image_output;
 }
 
 - (IBAction)takePhoto:(id)sender {
-    [self getDescriptionWithToken];
+    //[self getDescriptionWithToken];
     
-    /*AVCaptureConnection *video_connection = nil;
+    AVCaptureConnection *video_connection = nil;
     
     for (AVCaptureConnection *connection in still_image_output.connections) {
         for (AVCaptureInputPort *port in [connection inputPorts]) {
@@ -114,9 +114,14 @@ AVCaptureStillImageOutput *still_image_output;
         if (image_data_sample_buffer != NULL) {
             NSData *image_data = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:image_data_sample_buffer];
             UIImage *image = [UIImage imageWithData:image_data];
+            
+            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
+            
+            // Retrieve that same image
+            
             image_view.image = image;
         }
-    }];*/
+    }];
 }
 
 - (void)getTokenWithImg {
