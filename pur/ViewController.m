@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+@import AssetsLibrary;
 
 @interface ViewController ()
 @property (nonatomic) UIButton *takePhotoBtn;
@@ -20,9 +21,17 @@
 AVCaptureSession *session;
 AVCaptureStillImageOutput *still_image_output;
 
+NSArray *recycling_terms;
+NSArray *compost_terms;
+
+#pragma mark - View Loading Stuff
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    // Initialize arrays
+    recycling_terms = [NSArray arrayWithObjects:@"bottle", @"cardboard", @"paper", nil];
+    compost_terms = [NSArray arrayWithObjects:@"banana", @"apple", @"fruit", @"vegetable", nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -55,6 +64,7 @@ AVCaptureStillImageOutput *still_image_output;
     
 }
 
+#pragma mark - Camera Session
 - (AVCaptureVideoOrientation) videoOrientationFromCurrentDeviceOrientation {
     if (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft) {
         return AVCaptureVideoOrientationLandscapeLeft;
@@ -62,7 +72,6 @@ AVCaptureStillImageOutput *still_image_output;
         return AVCaptureVideoOrientationLandscapeRight;
     }
 }
-
 
 -(AVCaptureDevice *)frontFacingCameraIfAvailable
 {
@@ -86,12 +95,12 @@ AVCaptureStillImageOutput *still_image_output;
 }
 
 - (IBAction)takePhoto:(id)sender {
-    // testing token. getTokenWithImg should return this
+    
     NSString *token = [self getTokenWithImg];
 
     [self getDescriptionWithToken:token];
     
-    /*AVCaptureConnection *video_connection = nil;
+    AVCaptureConnection *video_connection = nil;
     
     for (AVCaptureConnection *connection in still_image_output.connections) {
         for (AVCaptureInputPort *port in [connection inputPorts]) {
@@ -117,10 +126,54 @@ AVCaptureStillImageOutput *still_image_output;
         if (image_data_sample_buffer != NULL) {
             NSData *image_data = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:image_data_sample_buffer];
             UIImage *image = [UIImage imageWithData:image_data];
-            image_view.image = image;
+            
+            // Save image to camera roll so that we can get a path for the image to send to the API later
+            if (image != nil) {
+                NSString *path = [self getPhotoPath:image];
+                NSLog(path);
+                
+                image_view.image = image;
+            }
         }
-    }];*/
+    }];
 }
+
+// Helen: this is where we would have to trigger the garbage, recycling or compost flows
+- (void)handleImageSearchResultForSearchTerm:(NSString *)search_term {
+    if ([self array:compost_terms ContainsStringOrSimilar:search_term]) {
+        // proceed with garbage flow
+    } else if ([self array:recycling_terms ContainsStringOrSimilar:search_term]) {
+        // proceed with recycling flow
+    } else {
+        // proceed with garbage flow
+    }
+}
+
+- (BOOL)array:(NSArray *)array ContainsStringOrSimilar:(NSString *)string {
+    // May want to consider using fuzzy string matching if we have time
+    if ([array containsObject:string]) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+- (NSString*)getPhotoPath:(UIImage*)image {
+    if (image != nil) {
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
+                                                             NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        NSString *path = [documentsDirectory stringByAppendingPathComponent:
+                          @"test.png" ];
+        NSData* data = UIImagePNGRepresentation(image);
+        [data writeToFile:path atomically:YES];
+        return path;
+    }
+    
+    return @"error";
+}
+
+#pragma mark - Reverse Image Search API
 
 - (NSString*)getTokenWithImg {
     
@@ -170,26 +223,6 @@ AVCaptureStillImageOutput *still_image_output;
          {
              NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
              NSLog(string);
-         }
-     }];
-}
-
-- (void)test2 {
-    NSURL *url = [NSURL URLWithString:@"http://rest-service.guides.spring.io/greeting"];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    [NSURLConnection sendAsynchronousRequest:request
-                                       queue:[NSOperationQueue mainQueue]
-                           completionHandler:^(NSURLResponse *response,
-                                               NSData *data, NSError *connectionError)
-     {
-         if (data.length > 0 && connectionError == nil)
-         {
-             NSDictionary *greeting = [NSJSONSerialization JSONObjectWithData:data
-                                                                      options:0
-                                                                        error:NULL];
-             NSLog([[greeting objectForKey:@"id"] stringValue]);
-//             self.greetingId.text = [[greeting objectForKey:@"id"] stringValue];
-//             self.greetingContent.text = [greeting objectForKey:@"content"];
          }
      }];
 }
