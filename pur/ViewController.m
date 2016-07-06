@@ -21,6 +21,19 @@
 AVCaptureSession *session;
 AVCaptureStillImageOutput *still_image_output;
 
+- (NSArray *) garbage_terms {
+    return @[@"styrofoam"];
+}
+
+- (NSArray *) recycling_terms {
+    return @[@"bottle", @"cardboard", @"paper"];
+}
+
+- (NSArray *) compost_terms {
+    return @[@"banana", @"apple", @"fruit", @"vegetable"];
+}
+
+#pragma mark - View Loading Stuff
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
@@ -56,19 +69,7 @@ AVCaptureStillImageOutput *still_image_output;
     
 }
 
-- (NSArray *) garbage_terms {
-    return @[@"styrofoam"];
-}
-
-- (NSArray *) recycling_terms {
-    return @[@"bottle", @"cardboard", @"paper"];
-}
-
-- (NSArray *) compost_terms {
-    return @[@"banana", @"apple", @"fruit", @"vegetable"];
-}
-
-
+#pragma mark - Camera Session
 - (AVCaptureVideoOrientation) videoOrientationFromCurrentDeviceOrientation {
     if (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft) {
         return AVCaptureVideoOrientationLandscapeLeft;
@@ -76,7 +77,6 @@ AVCaptureStillImageOutput *still_image_output;
         return AVCaptureVideoOrientationLandscapeRight;
     }
 }
-
 
 -(AVCaptureDevice *)frontFacingCameraIfAvailable
 {
@@ -155,6 +155,8 @@ AVCaptureStillImageOutput *still_image_output;
     return @"error";
 }
 
+#pragma mark - Reverse Image Search API
+
 - (void)getTokenWithImg {
     NSString *mashape_key = @"horcs5Q9Ddmsh1lzJ9dhI2q2h3D1p1cvrI0jsnYzNbOKZ4M16r";
     NSString *img_url = @"http://upload.wikimedia.org/wikipedia/en/2/2d/Mashape_logo.png";
@@ -204,26 +206,6 @@ AVCaptureStillImageOutput *still_image_output;
              NSLog(@"success");
          } else {
              NSLog(@"failed");
-         }
-     }];
-}
-
-- (void)test2 {
-    NSURL *url = [NSURL URLWithString:@"http://rest-service.guides.spring.io/greeting"];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    [NSURLConnection sendAsynchronousRequest:request
-                                       queue:[NSOperationQueue mainQueue]
-                           completionHandler:^(NSURLResponse *response,
-                                               NSData *data, NSError *connectionError)
-     {
-         if (data.length > 0 && connectionError == nil)
-         {
-             NSDictionary *greeting = [NSJSONSerialization JSONObjectWithData:data
-                                                                      options:0
-                                                                        error:NULL];
-             NSLog([[greeting objectForKey:@"id"] stringValue]);
-//             self.greetingId.text = [[greeting objectForKey:@"id"] stringValue];
-//             self.greetingContent.text = [greeting objectForKey:@"content"];
          }
      }];
 }
