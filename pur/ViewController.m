@@ -30,7 +30,6 @@ NSArray *compost_terms;
     // Do any additional setup after loading the view, typically from a nib.
     
     // Initialize arrays
-    garbage_terms = [NSArray arrayWithObjects:@"styrofoam", nil];
     recycling_terms = [NSArray arrayWithObjects:@"bottle", @"cardboard", @"paper", nil];
     compost_terms = [NSArray arrayWithObjects:@"banana", @"apple", @"fruit", @"vegetable", nil];
 }
