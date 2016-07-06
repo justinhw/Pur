@@ -86,7 +86,10 @@ AVCaptureStillImageOutput *still_image_output;
 }
 
 - (IBAction)takePhoto:(id)sender {
-    [self getDescriptionWithToken];
+    // testing token. getTokenWithImg should return this
+    NSString *token = [self getTokenWithImg];
+
+    [self getDescriptionWithToken:token];
     
     /*AVCaptureConnection *video_connection = nil;
     
@@ -119,19 +122,18 @@ AVCaptureStillImageOutput *still_image_output;
     }];*/
 }
 
-- (void)getTokenWithImg {
-    NSString *mashape_key = @"horcs5Q9Ddmsh1lzJ9dhI2q2h3D1p1cvrI0jsnYzNbOKZ4M16r";
-    NSString *img_url = @"http://upload.wikimedia.org/wikipedia/en/2/2d/Mashape_logo.png";
-    
-    NSError *error;
-    
-    NSDictionary *headers = @{@"mashape-key": mashape_key, @"Content-Type": @"application/x-www-form-urlencoded", @"Accept": @"application/json"};
-    NSDictionary *parameters = @{@"focus[x]": @"480", @"focus[y]": @"640", @"image_request[altitude]": @"27.912109375", @"image_request[language]": @"en", @"image_request[latitude]": @"35.8714220766008", @"image_request[locale]": @"en_US", @"image_request[longitude]": @"14.3583203002251", @"image_request[remote_image_url]": img_url};
-    NSData *parameters_json =[NSJSONSerialization dataWithJSONObject:parameters options:NSJSONWritingPrettyPrinted error:&error];
+- (NSString*)getTokenWithImg {
     
     NSString *url = @"https://camfind.p.mashape.com/image_requests";
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
+    NSString *headers = @"?mashape-key=horcs5Q9Ddmsh1lzJ9dhI2q2h3D1p1cvrI0jsnYzNbOKZ4M16r";
+    NSString *requestUrl = [NSString stringWithFormat:@"%@%@", url, headers];
     
+    NSError *error;
+    NSDictionary *parameters = @{@"image_request[image]": @"BINARY IMAGE HERE"}; // need to input BINARY
+    NSData *parameters_json =[NSJSONSerialization dataWithJSONObject:parameters options:NSJSONWritingPrettyPrinted error:&error];
+    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:requestUrl]];
+
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:parameters_json];
     
@@ -142,21 +144,22 @@ AVCaptureStillImageOutput *still_image_output;
      {
          if (data.length > 0 && connectionError == nil)
          {
-             NSLog(@"success");
-         } else {
-             NSLog(@"failed");
+             NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+             NSLog(string);
          }
      }];
-}
-
-
-- (void)getDescriptionWithToken {
-    NSString *mashape_key = @"horcs5Q9Ddmsh1lzJ9dhI2q2h3D1p1cvrI0jsnYzNbOKZ4M16r";
     
-    NSDictionary *headers = @{@"mashape-key": @"horcs5Q9Ddmsh1lzJ9dhI2q2h3D1p1cvrI0jsnYzNbOKZ4M16r", @"Accept": @"application/json"};
-    //fix this...{token} value & {mashape-key value}
-    NSString *url = @"https://camfind.p.mashape.com/image_responses/9JKAWHKGLjqMdDKDNIJQfg?mashape-key=horcs5Q9Ddmsh1lzJ9dhI2q2h3D1p1cvrI0jsnYzNbOKZ4M16r";
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
+    return @"9JKAWHKGLjqMdDKDNIJQfg";
+    }
+
+
+- (void)getDescriptionWithToken:(NSString*) token {
+
+    NSString *headers = @"?mashape-key=horcs5Q9Ddmsh1lzJ9dhI2q2h3D1p1cvrI0jsnYzNbOKZ4M16r";
+    NSString *url = @"https://camfind.p.mashape.com/image_responses/";
+    NSString *requestUrl = [NSString stringWithFormat:@"%@%@%@", url, token, headers];
+    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:requestUrl]];
     
     [NSURLConnection sendAsynchronousRequest:request
                                        queue:[NSOperationQueue mainQueue]
@@ -165,9 +168,8 @@ AVCaptureStillImageOutput *still_image_output;
      {
          if (data.length > 0 && connectionError == nil)
          {
-             NSLog(@"success");
-         } else {
-             NSLog(@"failed");
+             NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+             NSLog(string);
          }
      }];
 }
