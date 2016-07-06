@@ -87,8 +87,6 @@ AVCaptureStillImageOutput *still_image_output;
 }
 
 - (IBAction)takePhoto:(id)sender {
-    //[self getDescriptionWithToken];
-    
     AVCaptureConnection *video_connection = nil;
     
     for (AVCaptureConnection *connection in still_image_output.connections) {
@@ -125,6 +123,8 @@ AVCaptureStillImageOutput *still_image_output;
             }
         }
     }];
+    
+    [self getDescriptionWithToken];
 }
 
 - (NSString*)getPhotoPath:(UIImage*)image {
