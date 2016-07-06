@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+@import AssetsLibrary;
 
 @interface ViewController ()
 @property (nonatomic) UIButton *takePhotoBtn;
@@ -115,13 +116,30 @@ AVCaptureStillImageOutput *still_image_output;
             NSData *image_data = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:image_data_sample_buffer];
             UIImage *image = [UIImage imageWithData:image_data];
             
-            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
-            
-            // Retrieve that same image
-            
-            image_view.image = image;
+            // Save image to camera roll so that we can get a path for the image to send to the API later
+            if (image != nil) {
+                NSString *path = [self getPhotoPath:image];
+                NSLog(path);
+                
+                image_view.image = image;
+            }
         }
     }];
+}
+
+- (NSString*)getPhotoPath:(UIImage*)image {
+    if (image != nil) {
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
+                                                             NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        NSString *path = [documentsDirectory stringByAppendingPathComponent:
+                          @"test.png" ];
+        NSData* data = UIImagePNGRepresentation(image);
+        [data writeToFile:path atomically:YES];
+        return path;
+    }
+    
+    return @"error";
 }
 
 - (void)getTokenWithImg {
