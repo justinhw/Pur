@@ -21,22 +21,18 @@
 AVCaptureSession *session;
 AVCaptureStillImageOutput *still_image_output;
 
-- (NSArray *) garbage_terms {
-    return @[@"styrofoam"];
-}
-
-- (NSArray *) recycling_terms {
-    return @[@"bottle", @"cardboard", @"paper"];
-}
-
-- (NSArray *) compost_terms {
-    return @[@"banana", @"apple", @"fruit", @"vegetable"];
-}
+NSArray *recycling_terms;
+NSArray *compost_terms;
 
 #pragma mark - View Loading Stuff
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    // Initialize arrays
+    garbage_terms = [NSArray arrayWithObjects:@"styrofoam", nil];
+    recycling_terms = [NSArray arrayWithObjects:@"bottle", @"cardboard", @"paper", nil];
+    compost_terms = [NSArray arrayWithObjects:@"banana", @"apple", @"fruit", @"vegetable", nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -138,6 +134,26 @@ AVCaptureStillImageOutput *still_image_output;
     }];
     
     [self getDescriptionWithToken];
+}
+
+// Helen: this is where we would have to trigger the garbage, recycling or compost flows
+- (void)handleImageSearchResultForSearchTerm:(NSString *)search_term {
+    if ([self array:compost_terms ContainsStringOrSimilar:search_term]) {
+        // proceed with garbage flow
+    } else if ([self array:recycling_terms ContainsStringOrSimilar:search_term]) {
+        // proceed with recycling flow
+    } else {
+        // proceed with garbage flow
+    }
+}
+
+- (BOOL)array:(NSArray *)array ContainsStringOrSimilar:(NSString *)string {
+    // May want to consider using fuzzy string matching if we have time
+    if ([array containsObject:string]) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 - (NSString*)getPhotoPath:(UIImage*)image {
