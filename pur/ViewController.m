@@ -56,6 +56,19 @@ AVCaptureStillImageOutput *still_image_output;
     
 }
 
+- (NSArray *) garbage_terms {
+    return @[@"styrofoam"];
+}
+
+- (NSArray *) recycling_terms {
+    return @[@"bottle", @"cardboard", @"paper"];
+}
+
+- (NSArray *) compost_terms {
+    return @[@"banana", @"apple", @"fruit", @"vegetable"];
+}
+
+
 - (AVCaptureVideoOrientation) videoOrientationFromCurrentDeviceOrientation {
     if (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft) {
         return AVCaptureVideoOrientationLandscapeLeft;
