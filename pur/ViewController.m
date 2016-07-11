@@ -215,7 +215,7 @@ NSArray *compost_terms;
         NSDictionary* json = [NSJSONSerialization JSONObjectWithData:rawBody
                                                              options:kNilOptions
                                                                error:&error];
-        token = [json[@"token"] stringValue];
+        token = [json[@"token"] stringValue] ;
     }];
     
     return token;
