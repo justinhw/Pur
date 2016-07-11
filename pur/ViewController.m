@@ -125,10 +125,32 @@ NSArray *compost_terms;
             NSData *image_data = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:image_data_sample_buffer];
             UIImage *image = [UIImage imageWithData:image_data];
             
+            // Create path.
+            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+            NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"Image.png"];
+            
+            // Save image.
+            [UIImagePNGRepresentation(image) writeToFile:filePath atomically:YES];
+            
+            NSURL *imageUrl = [NSURL fileURLWithPath:filePath isDirectory:NO];
+            
+//            NSFileManager *fileManager = [NSFileManager defaultManager];
+//            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+//            NSString *documentsDirectory = [paths objectAtIndex:0];
+//            NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:@".png"];
+//            [fileManager createFileAtPath:fullPath contents:image_data attributes:nil];
+//            
+//            if ([[NSFileManager defaultManager] fileExistsAtPath:fullPath])
+//                
+//            {
+//                NSURL *imageUrl = [NSURL fileURLWithPath:fullPath isDirectory:NO];
+//                NSLog(@"test");
+//            }
+            
             // Save image to camera roll so that we can get a path for the image to send to the API later
             if (image != nil) {
                 NSString *imgDataAsString = [UIImagePNGRepresentation(image) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];;
-                NSString *token = [self getTokenWithImgData:imgDataAsString];
+                NSString *token = [self getTokenWithImgData:imageUrl];
                 NSString *response = [self getDescriptionWithToken:token];
 
                 image_view.image = image;
@@ -174,7 +196,10 @@ NSArray *compost_terms;
 
 #pragma mark - Reverse Image Search API
 
-- (NSString*)getTokenWithImgData:(NSString *)imgDataAsString {    
+- (NSString*)getTokenWithImgData:(NSURL *)imgDataAsString {
+    
+    __block NSString* token;
+    
     NSDictionary *headers = @{@"X-Mashape-Key": @"horcs5Q9Ddmsh1lzJ9dhI2q2h3D1p1cvrI0jsnYzNbOKZ4M16r"};
     NSDictionary *parameters = @{@"image_request[image]": imgDataAsString, @"image_request[locale]": @"en_US"};
     UNIUrlConnection *asyncConnection = [[UNIRest post:^(UNISimpleRequest *request) {
@@ -186,13 +211,20 @@ NSArray *compost_terms;
         NSDictionary *responseHeaders = response.headers;
         UNIJsonNode *body = response.body;
         NSData *rawBody = response.rawBody;
+        
+        NSDictionary* json = [NSJSONSerialization JSONObjectWithData:rawBody
+                                                             options:kNilOptions
+                                                               error:&error];
+        token = [json[@"token"] stringValue];
     }];
     
-    return @"fd";
+    return token;
 }
 
 
 - (NSString *)getDescriptionWithToken:(NSString*) token {
+    
+    NSLog(token);
     
     NSString *description;
     
