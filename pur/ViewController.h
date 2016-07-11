@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
-//#import "Unirest/UNIRest.h"
 
 @interface ViewController : UIViewController {
     IBOutlet UIView *frame_for_capture;

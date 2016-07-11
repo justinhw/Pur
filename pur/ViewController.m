@@ -7,6 +7,8 @@
 //
 
 #import "ViewController.h"
+#import <UNIRest.h>
+
 @import AssetsLibrary;
 
 @interface ViewController ()
@@ -172,35 +174,21 @@ NSArray *compost_terms;
 
 #pragma mark - Reverse Image Search API
 
-- (NSString*)getTokenWithImgData:(NSString *)imgDataAsString {
-    
-    NSString *token;
-    
-    NSString *url = @"https://camfind.p.mashape.com/image_requests";
-    NSString *headers = @"?mashape-key=horcs5Q9Ddmsh1lzJ9dhI2q2h3D1p1cvrI0jsnYzNbOKZ4M16r";
-    NSString *requestUrl = [NSString stringWithFormat:@"%@%@", url, headers];
-    
-    NSError *error;
+- (NSString*)getTokenWithImgData:(NSString *)imgDataAsString {    
+    NSDictionary *headers = @{@"X-Mashape-Key": @"horcs5Q9Ddmsh1lzJ9dhI2q2h3D1p1cvrI0jsnYzNbOKZ4M16r"};
     NSDictionary *parameters = @{@"image_request[image]": imgDataAsString, @"image_request[locale]": @"en_US"};
-    NSData *parameters_json =[NSJSONSerialization dataWithJSONObject:parameters options:NSJSONWritingPrettyPrinted error:&error];
+    UNIUrlConnection *asyncConnection = [[UNIRest post:^(UNISimpleRequest *request) {
+        [request setUrl:@"https://camfind.p.mashape.com/image_requests"];
+        [request setHeaders:headers];
+        [request setParameters:parameters];
+    }] asJsonAsync:^(UNIHTTPJsonResponse *response, NSError *error) {
+        NSInteger code = response.code;
+        NSDictionary *responseHeaders = response.headers;
+        UNIJsonNode *body = response.body;
+        NSData *rawBody = response.rawBody;
+    }];
     
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:requestUrl]];
-
-    [request setHTTPMethod:@"POST"];
-    [request setHTTPBody:parameters_json];
-    
-    [NSURLConnection sendAsynchronousRequest:request
-                                       queue:[NSOperationQueue mainQueue]
-                           completionHandler:^(NSURLResponse *response,
-                                               NSData *data, NSError *connectionError)
-     {
-         if (data.length > 0 && connectionError == nil)
-         {
-             __block token = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-         }
-     }];
-    
-    return token;
+    return @"fd";
 }
 
 
