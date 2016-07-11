@@ -96,10 +96,6 @@ NSArray *compost_terms;
 
 - (IBAction)takePhoto:(id)sender {
     
-    //NSString *token = [self getTokenWithImg];
-
-    //[self getDescriptionWithToken:token];
-    
     AVCaptureConnection *video_connection = nil;
     
     for (AVCaptureConnection *connection in still_image_output.connections) {
@@ -132,9 +128,7 @@ NSArray *compost_terms;
                 NSString *imgDataAsString = [UIImagePNGRepresentation(image) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];;
                 NSString *token = [self getTokenWithImgData:imgDataAsString];
                 NSString *response = [self getDescriptionWithToken:token];
-//                NSString *path = [self getPhotoPath:image];
-//                NSLog(path);
-                
+
                 image_view.image = image;
             }
         }
@@ -179,13 +173,15 @@ NSArray *compost_terms;
 #pragma mark - Reverse Image Search API
 
 - (NSString*)getTokenWithImgData:(NSString *)imgDataAsString {
+    
     NSString *token;
+    
     NSString *url = @"https://camfind.p.mashape.com/image_requests";
     NSString *headers = @"?mashape-key=horcs5Q9Ddmsh1lzJ9dhI2q2h3D1p1cvrI0jsnYzNbOKZ4M16r";
     NSString *requestUrl = [NSString stringWithFormat:@"%@%@", url, headers];
     
     NSError *error;
-    NSDictionary *parameters = @{@"image_request[image]": imgDataAsString}; // need to input BINARY
+    NSDictionary *parameters = @{@"image_request[image]": imgDataAsString, @"image_request[locale]": @"en_US"};
     NSData *parameters_json =[NSJSONSerialization dataWithJSONObject:parameters options:NSJSONWritingPrettyPrinted error:&error];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:requestUrl]];
@@ -205,12 +201,15 @@ NSArray *compost_terms;
      }];
     
     return token;
-    }
+}
 
 
 - (NSString *)getDescriptionWithToken:(NSString*) token {
-    NSString *headers = @"?mashape-key=horcs5Q9Ddmsh1lzJ9dhI2q2h3D1p1cvrI0jsnYzNbOKZ4M16r";
+    
+    NSString *description;
+    
     NSString *url = @"https://camfind.p.mashape.com/image_responses/";
+    NSString *headers = @"?mashape-key=horcs5Q9Ddmsh1lzJ9dhI2q2h3D1p1cvrI0jsnYzNbOKZ4M16r";
     NSString *requestUrl = [NSString stringWithFormat:@"%@%@%@", url, token, headers];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:requestUrl]];
@@ -222,12 +221,11 @@ NSArray *compost_terms;
      {
          if (data.length > 0 && connectionError == nil)
          {
-             NSString *string= [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-             NSLog(string);
+             __block description = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
          }
      }];
     
-    return @"test";
+    return description;
 }
 
 @end
