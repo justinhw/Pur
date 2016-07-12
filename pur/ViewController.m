@@ -13,6 +13,10 @@
 
 @interface ViewController ()
 @property (nonatomic) UIButton *takePhotoBtn;
+
+@property NSString* token;
+@property NSString* objectDescription;
+
 @end
 
 @interface APPViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
@@ -34,6 +38,10 @@ NSArray *compost_terms;
     // Initialize arrays
     recycling_terms = [NSArray arrayWithObjects:@"bottle", @"cardboard", @"paper", nil];
     compost_terms = [NSArray arrayWithObjects:@"banana", @"apple", @"fruit", @"vegetable", nil];
+    
+    // KVO
+    [self addObserver:self forKeyPath:@"token" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
+    [self addObserver:self forKeyPath:@"objectDescription" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -63,7 +71,6 @@ NSArray *compost_terms;
     [still_image_output setOutputSettings:output_settings];
     [session addOutput:still_image_output];
     [session startRunning];
-    
 }
 
 #pragma mark - Camera Session
@@ -134,26 +141,12 @@ NSArray *compost_terms;
             
             NSURL *imageUrl = [NSURL fileURLWithPath:filePath isDirectory:NO];
             
-//            NSFileManager *fileManager = [NSFileManager defaultManager];
-//            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-//            NSString *documentsDirectory = [paths objectAtIndex:0];
-//            NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:@".png"];
-//            [fileManager createFileAtPath:fullPath contents:image_data attributes:nil];
-//            
-//            if ([[NSFileManager defaultManager] fileExistsAtPath:fullPath])
-//                
-//            {
-//                NSURL *imageUrl = [NSURL fileURLWithPath:fullPath isDirectory:NO];
-//                NSLog(@"test");
-//            }
-            
             // Save image to camera roll so that we can get a path for the image to send to the API later
             if (image != nil) {
                 NSString *imgDataAsString = [UIImagePNGRepresentation(image) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];;
-                NSString *token = [self getTokenWithImgData:imageUrl];
-                NSString *response = [self getDescriptionWithToken:token];
-
                 image_view.image = image;
+                
+                [self getTokenWithImgData:imageUrl];
             }
         }
     }];
@@ -196,9 +189,28 @@ NSArray *compost_terms;
 
 #pragma mark - Reverse Image Search API
 
-- (NSString*)getTokenWithImgData:(NSURL *)imgDataAsString {
-    
-    __block NSString* token;
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"token"]) {
+        
+        double delayInSeconds = 20.0;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            [self getDescriptionWithToken];
+        });
+        
+        // [self getDescriptionWithToken];
+        
+    } else if ([keyPath isEqualToString:@"description"]) {
+        
+        NSLog(_objectDescription);
+        
+    } else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
+}
+
+- (void)getTokenWithImgData:(NSURL *)imgDataAsString {
     
     NSDictionary *headers = @{@"X-Mashape-Key": @"horcs5Q9Ddmsh1lzJ9dhI2q2h3D1p1cvrI0jsnYzNbOKZ4M16r"};
     NSDictionary *parameters = @{@"image_request[image]": imgDataAsString, @"image_request[locale]": @"en_US"};
@@ -212,40 +224,35 @@ NSArray *compost_terms;
         UNIJsonNode *body = response.body;
         NSData *rawBody = response.rawBody;
         
-        NSDictionary* json = [NSJSONSerialization JSONObjectWithData:rawBody
+        NSDictionary *json = [NSJSONSerialization JSONObjectWithData:rawBody
                                                              options:kNilOptions
                                                                error:&error];
-        token = [json[@"token"] stringValue] ;
+        NSString *token = [json objectForKey:@"token"];
+        [self setValue:token forKey:@"token"];
     }];
-    
-    return token;
 }
 
 
-- (NSString *)getDescriptionWithToken:(NSString*) token {
-    
-    NSLog(token);
-    
-    NSString *description;
-    
+- (void)getDescriptionWithToken {
+  
     NSString *url = @"https://camfind.p.mashape.com/image_responses/";
-    NSString *headers = @"?mashape-key=horcs5Q9Ddmsh1lzJ9dhI2q2h3D1p1cvrI0jsnYzNbOKZ4M16r";
-    NSString *requestUrl = [NSString stringWithFormat:@"%@%@%@", url, token, headers];
+    NSString *requestUrl = [NSString stringWithFormat:@"%@%@", url, _token];
     
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:requestUrl]];
-    
-    [NSURLConnection sendAsynchronousRequest:request
-                                       queue:[NSOperationQueue mainQueue]
-                           completionHandler:^(NSURLResponse *response,
-                                               NSData *data, NSError *connectionError)
-     {
-         if (data.length > 0 && connectionError == nil)
-         {
-             __block description = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-         }
-     }];
-    
-    return description;
+    NSDictionary *headers = @{@"X-Mashape-Key": @"horcs5Q9Ddmsh1lzJ9dhI2q2h3D1p1cvrI0jsnYzNbOKZ4M16r", @"Accept": @"application/json"};
+    UNIUrlConnection *asyncConnection = [[UNIRest get:^(UNISimpleRequest *request) {
+        [request setUrl:requestUrl];
+        [request setHeaders:headers];
+    }] asJsonAsync:^(UNIHTTPJsonResponse *response, NSError *error) {
+        NSInteger code = response.code;
+        NSDictionary *responseHeaders = response.headers;
+        UNIJsonNode *body = response.body;
+        NSData *rawBody = response.rawBody;
+        
+        NSDictionary *json = [NSJSONSerialization JSONObjectWithData:rawBody
+                                                             options:kNilOptions
+                                                               error:&error];
+        NSLog(@"%@",json);
+    }];
 }
 
 @end
