@@ -195,12 +195,18 @@ NSArray *compost_terms;
 }
 
 - (BOOL)array:(NSArray *)array ContainsStringOrSimilar:(NSString *)string {
+    NSArray *array_of_terms = [string componentsSeparatedByString:@" "];
+    
     // May want to consider using fuzzy string matching if we have time
-    if ([array containsObject:string]) {
-        return true;
-    } else {
-        return false;
+    for (int i=0; i<[array_of_terms count]; i++) {
+        NSString *current_term = array_of_terms[i];
+        
+        if ([array containsObject:current_term]) {
+            return true;
+        }
     }
+    
+    return false;
 }
 
 - (NSString*)getPhotoPath:(UIImage*)image {
@@ -233,6 +239,7 @@ NSArray *compost_terms;
     } else if ([keyPath isEqualToString:@"description"]) { // call the function to implement once we get a return result here!
         
         NSLog(_objectDescription);
+        [self handleImageSearchResultForSearchTerm:_objectDescription];
         
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
