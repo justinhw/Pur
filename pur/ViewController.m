@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "ResultsViewController.h"
 #import <UNIRest.h>
 #import <GPUImage.h>
 
@@ -187,12 +188,15 @@ NSArray *compost_terms;
 // Helen: this is where we would have to trigger the garbage, recycling or compost flows
 - (void)handleImageSearchResultForSearchTerm:(NSString *)search_term {
     if ([self array:compost_terms ContainsStringOrSimilar:search_term]) {
-        // proceed with garbage flow
+        // proceed with compost flow
+        [[NSUserDefaults standardUserDefaults] setObject:@"compost" forKey:@"waste_type"];
     } else if ([self array:recycling_terms ContainsStringOrSimilar:search_term]) {
         // proceed with recycling flow
-    } else {
-        // proceed with garbage flow
+        [[NSUserDefaults standardUserDefaults] setObject:@"recycle" forKey:@"waste_type"];
     }
+    
+    ResultsViewController *resultsViewController = [[ResultsViewController alloc] init];
+    [self presentViewController:resultsViewController animated:NO completion:NULL];
 }
 
 - (BOOL)array:(NSArray *)array ContainsStringOrSimilar:(NSString *)string {
