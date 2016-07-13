@@ -3,6 +3,7 @@
 
 target 'pur' do
   pod 'Unirest', '~> 1.1.4'
+  pod 'GPUImage', '~> 0.1'
   # Uncomment this line if you're using Swift or would like to use dynamic frameworks
   # use_frameworks!
 

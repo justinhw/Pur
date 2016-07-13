@@ -1,12 +1,15 @@
 PODS:
+  - GPUImage (0.1.7)
   - Unirest (1.1.4)
 
 DEPENDENCIES:
+  - GPUImage (~> 0.1)
   - Unirest (~> 1.1.4)
 
 SPEC CHECKSUMS:
+  GPUImage: 733a5f0fab92df9de1c37ba9df520a833ccb406d
   Unirest: 5e4d93eaf32463bf619a4ecd3bbc8c32acf21eac
 
-PODFILE CHECKSUM: 58718a1573c12025f703eb6c57d29a1905d8dac9
+PODFILE CHECKSUM: de92d2f254e578c94c137fc8aeea4eb994e81bd2
 
 COCOAPODS: 1.0.1

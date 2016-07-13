@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import <UNIRest.h>
+#import <GPUImage.h>
 
 @import AssetsLibrary;
 
