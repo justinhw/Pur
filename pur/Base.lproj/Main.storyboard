@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="lHQ-yn-6yD">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15D21" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="lHQ-yn-6yD">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -30,21 +30,33 @@
                                 <rect key="frame" x="77" y="610" width="870" height="128"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="300 kg" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5TA-EE-Rye">
-                                <rect key="frame" x="77" y="91" width="193" height="74"/>
+                                <rect key="frame" x="83" y="91" width="193" height="74"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="300 kg" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pwe-CF-G4f">
                                 <rect key="frame" x="416" y="91" width="193" height="74"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="tree" translatesAutoresizingMaskIntoConstraints="NO" id="VGj-L6-jbz">
+                                <rect key="frame" x="705" y="255" width="117" height="159"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="dead_plant" translatesAutoresizingMaskIntoConstraints="NO" id="eNd-Iz-g2A">
+                                <rect key="frame" x="329" y="228" width="112" height="153"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="baby_plant" translatesAutoresizingMaskIntoConstraints="NO" id="LAE-vm-sar">
+                                <rect key="frame" x="464" y="430" width="96" height="51"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="baby_plant" translatesAutoresizingMaskIntoConstraints="NO" id="uj9-bm-EBf">
+                                <rect key="frame" x="449" y="351" width="118" height="62"/>
+                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="300 kg" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i7V-sN-51K">
-                                <rect key="frame" x="754" y="91" width="193" height="74"/>
+                                <rect key="frame" x="748" y="91" width="193" height="74"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -58,7 +70,10 @@
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
+                        <outlet property="baby_plant1" destination="LAE-vm-sar" id="Kyw-db-mmm"/>
+                        <outlet property="baby_plant2" destination="uj9-bm-EBf" id="V1w-sK-kAA"/>
                         <outlet property="compost_kg" destination="i7V-sN-51K" id="Y62-5e-uCK"/>
+                        <outlet property="dead_tree1" destination="eNd-Iz-g2A" id="Ibc-Xd-MK4"/>
                         <outlet property="garbage_kg" destination="5TA-EE-Rye" id="s92-HI-UNp"/>
                         <outlet property="hold_item" destination="aic-1d-aqT" id="0fi-2d-Jc0"/>
                         <outlet property="recycling_kg" destination="pwe-CF-G4f" id="dd8-aH-mdo"/>
@@ -135,6 +150,27 @@
                                     <segue destination="lHQ-yn-6yD" kind="modal" id="Q1R-9e-abP"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="recycling_text" translatesAutoresizingMaskIntoConstraints="NO" id="HMY-NV-qlV">
+                                <rect key="frame" x="96" y="268" width="832" height="160"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="garbage_text" translatesAutoresizingMaskIntoConstraints="NO" id="Wtb-hB-ASa">
+                                <rect key="frame" x="189" y="268" width="647" height="160"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="compost_text" translatesAutoresizingMaskIntoConstraints="NO" id="aRy-26-zDK">
+                                <rect key="frame" x="149" y="268" width="726" height="160"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="drop_item_here_left_text" translatesAutoresizingMaskIntoConstraints="NO" id="kXt-Z6-6jB">
+                                <rect key="frame" x="280" y="516" width="465" height="186"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="drop_item_here_down_text" translatesAutoresizingMaskIntoConstraints="NO" id="sAD-nC-xb1">
+                                <rect key="frame" x="280" y="516" width="465" height="218"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="drop_item_here_right_text" translatesAutoresizingMaskIntoConstraints="NO" id="WeL-Dh-a8k">
+                                <rect key="frame" x="280" y="516" width="465" height="177"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="swipe_watcard_text" translatesAutoresizingMaskIntoConstraints="NO" id="KrF-Op-k0v">
+                                <rect key="frame" x="205" y="521" width="614" height="152"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -145,15 +181,34 @@
                         </constraints>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <connections>
+                        <outlet property="compost" destination="aRy-26-zDK" id="guq-zr-rMB"/>
+                        <outlet property="drop_down" destination="sAD-nC-xb1" id="vJF-o4-TKk"/>
+                        <outlet property="drop_left" destination="kXt-Z6-6jB" id="br6-wF-tUp"/>
+                        <outlet property="drop_right" destination="WeL-Dh-a8k" id="WVe-WM-2Du"/>
+                        <outlet property="garbage" destination="Wtb-hB-ASa" id="Ycc-IV-4X1"/>
+                        <outlet property="recycling" destination="HMY-NV-qlV" id="Ydq-zU-oSV"/>
+                        <outlet property="swipe_card" destination="KrF-Op-k0v" id="Oe9-cd-PrN"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qT1-fD-UOI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="91" y="3661"/>
+            <point key="canvasLocation" x="91" y="3659"/>
         </scene>
     </scenes>
     <resources>
+        <image name="baby_plant" width="215" height="127"/>
+        <image name="compost_text" width="1635" height="425"/>
         <image name="dashboard_main" width="2050" height="1538"/>
+        <image name="dead_plant" width="217" height="296"/>
+        <image name="drop_item_here_down_text" width="959" height="418"/>
+        <image name="drop_item_here_left_text" width="959" height="352"/>
+        <image name="drop_item_here_right_text" width="959" height="328"/>
+        <image name="garbage_text" width="1673" height="462"/>
+        <image name="recycling_text" width="1802" height="425"/>
         <image name="result_page" width="2050" height="1538"/>
+        <image name="swipe_watcard_text" width="1177" height="274"/>
         <image name="text_item" width="1661" height="253"/>
+        <image name="tree" width="229" height="309"/>
     </resources>
 </document>
