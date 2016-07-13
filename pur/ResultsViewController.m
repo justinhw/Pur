@@ -17,6 +17,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    NSString *garbage_type = [[NSUserDefaults standardUserDefaults] stringForKey:@"waste_type"];
+    
+    if ([garbage_type  isEqual: @"recycle"]) {
+        
+    } else if ([garbage_type  isEqual: @"compost"]) {
+        
+    } else {
+        
+    }
 }
 
 - (void)didReceiveMemoryWarning {
