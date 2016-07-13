@@ -136,9 +136,9 @@
 			children = (
 				E80268431D24315A00EB5BD5 /* AppDelegate.h */,
 				E80268441D24315A00EB5BD5 /* AppDelegate.m */,
-				E80268461D24315A00EB5BD5 /* ViewController.h */,
 				3BD961E61D3407AE00ADAC7F /* DashboardViewController.h */,
 				3BD961E71D3407AE00ADAC7F /* DashboardViewController.m */,
+				E80268461D24315A00EB5BD5 /* ViewController.h */,
 				E80268471D24315A00EB5BD5 /* ViewController.m */,
 				E80268491D24315A00EB5BD5 /* Main.storyboard */,
 				3BD961E91D340CBC00ADAC7F /* ResultsViewController.h */,

@@ -37,8 +37,10 @@ NSArray *compost_terms;
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
+    [self.view setBackgroundColor:[UIColor colorWithRed:0.47 green:0.78 blue:0.60 alpha:1.0]];
+    
     [_countdown setFont:[UIFont fontWithName:@"Helvetica" size:215 ]];
-    _countdown.textColor = [UIColor whiteColor];
+    _countdown.textColor = [UIColor blackColor];
     _countdown.text = @"3";
     
     [NSTimer scheduledTimerWithTimeInterval:1.0
