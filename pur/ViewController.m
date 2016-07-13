@@ -175,6 +175,7 @@ NSArray *compost_terms;
             
             // Save image to camera roll so that we can get a path for the image to send to the API later
             if (image != nil) {
+                AudioServicesPlaySystemSound(1108);
                 NSString *imgDataAsString = [UIImagePNGRepresentation(image) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];;
                 
                 [self getTokenWithImgData:imageUrl];
