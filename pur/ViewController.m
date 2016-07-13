@@ -67,6 +67,9 @@ NSArray *compost_terms;
     }
     else if([_countdown.text  isEqual: @"1"]){
         //take a picture;
+        [timer invalidate];
+        timer = nil;
+        [self capturePhoto];
     }
 }
 
@@ -130,7 +133,10 @@ NSArray *compost_terms;
 }
 
 - (IBAction)takePhoto:(id)sender {
-    
+    [self capturePhoto];
+}
+
+- (void)capturePhoto {
     AVCaptureConnection *video_connection = nil;
     
     for (AVCaptureConnection *connection in still_image_output.connections) {
@@ -170,7 +176,6 @@ NSArray *compost_terms;
             // Save image to camera roll so that we can get a path for the image to send to the API later
             if (image != nil) {
                 NSString *imgDataAsString = [UIImagePNGRepresentation(image) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];;
-                image_view.image = image;
                 
                 [self getTokenWithImgData:imageUrl];
             }
