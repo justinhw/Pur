@@ -12,6 +12,7 @@
 @import AssetsLibrary;
 
 @interface ViewController ()
+@property (weak, nonatomic) IBOutlet UILabel *countdown;
 @property (nonatomic) UIButton *takePhotoBtn;
 
 @property NSString* token;
@@ -35,6 +36,16 @@ NSArray *compost_terms;
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
+    [_countdown setFont:[UIFont fontWithName:@"Helvetica" size:215 ]];
+    _countdown.textColor = [UIColor whiteColor];
+    _countdown.text = @"3";
+    
+    [NSTimer scheduledTimerWithTimeInterval:1.0
+                                     target:self
+                                   selector:@selector(triggerCountdownValue:)
+                                   userInfo:nil
+                                    repeats:YES];
+    
     // Initialize arrays
     recycling_terms = [NSArray arrayWithObjects:@"bottle", @"cardboard", @"paper", nil];
     compost_terms = [NSArray arrayWithObjects:@"banana", @"apple", @"fruit", @"vegetable", nil];
@@ -42,6 +53,18 @@ NSArray *compost_terms;
     // KVO
     [self addObserver:self forKeyPath:@"token" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
     [self addObserver:self forKeyPath:@"objectDescription" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
+}
+
+- (void)triggerCountdownValue:(NSTimer *)timer {
+    if([_countdown.text  isEqual: @"3"]){
+        _countdown.text = @"2";
+    }
+    else if([_countdown.text  isEqual: @"2"]){
+        _countdown.text = @"1";
+    }
+    else if([_countdown.text  isEqual: @"1"]){
+        //take a picture;
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -234,7 +257,7 @@ NSArray *compost_terms;
 
 
 - (void)getDescriptionWithToken {
-  
+    
     NSString *url = @"https://camfind.p.mashape.com/image_responses/";
     NSString *requestUrl = [NSString stringWithFormat:@"%@%@", url, _token];
     
