@@ -43,6 +43,7 @@ NSArray *compost_terms;
     _countdown.textColor = [UIColor whiteColor];
     _countdown.text = @"3";
     
+    //timer for numerical countdown
     [NSTimer scheduledTimerWithTimeInterval:1.0
                                      target:self
                                    selector:@selector(triggerCountdownValue:)
