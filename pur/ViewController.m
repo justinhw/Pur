@@ -214,17 +214,15 @@ NSArray *compost_terms;
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if ([keyPath isEqualToString:@"token"]) {
+    if ([keyPath isEqualToString:@"token"]) {// calls getDescriptionWithToken whenever the "token" value is updated (i.e. new photo)
         
-        double delayInSeconds = 20.0;
+        double delayInSeconds = 20.0; // Mashape recommends we wait 8-10 seconds before querying, and if we don't get a return result repeat every 1-2 seconds after. After some rough testing I found 20 seconds to be stable....if we have time and enough query calls after I'll add functionality to do it 8-10 seconds after and repeat every 1-2 seconds until we get a result
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             [self getDescriptionWithToken];
         });
         
-        // [self getDescriptionWithToken];
-        
-    } else if ([keyPath isEqualToString:@"description"]) {
+    } else if ([keyPath isEqualToString:@"description"]) { // call the function to implement once we get a return result here!
         
         NSLog(_objectDescription);
         
@@ -274,7 +272,8 @@ NSArray *compost_terms;
         NSDictionary *json = [NSJSONSerialization JSONObjectWithData:rawBody
                                                              options:kNilOptions
                                                                error:&error];
-        NSLog(@"%@",json);
+        NSString *description = [json objectForKey:@"name"];
+        [self setValue:description forKey:@"objectDescription"];
     }];
 }
 
