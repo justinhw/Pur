@@ -70,8 +70,9 @@ NSMutableArray *faceView_area_sizes;
 - (void)setupFilter;
 {
     videoCamera = [[GPUImageVideoCamera alloc] initWithSessionPreset:AVCaptureSessionPreset640x480 cameraPosition:AVCaptureDevicePositionFront];
-    
+
     videoCamera.outputImageOrientation = [UIApplication sharedApplication].statusBarOrientation;
+    videoCamera.horizontallyMirrorFrontFacingCamera = YES;
     
     self.title = @"Motion Detector";
     
