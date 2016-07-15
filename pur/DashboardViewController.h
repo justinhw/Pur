@@ -7,7 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface DashboardViewController : UIViewController
+#import "GPUImage.h"
+@interface DashboardViewController : UIViewController {
+    GPUImageVideoCamera *videoCamera;
+    GPUImageOutput<GPUImageInput> *filter;
+    GPUImagePicture *sourcePicture;
+    GPUImageUIElement *uiElementInput;
+    
+    GPUImageFilterPipeline *pipeline;
+    UIView *faceView;
+    
+    CIDetector *faceDetector;
+}
 
 @end
