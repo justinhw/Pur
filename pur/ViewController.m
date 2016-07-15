@@ -182,7 +182,8 @@ NSArray *compost_terms;
                 AudioServicesPlaySystemSound(1108);
                 NSString *imgDataAsString = [UIImagePNGRepresentation(image) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];;
                 
-                [self getTokenWithImgData:imageUrl];
+                // TODO: uncomment this line to enable API searching
+                //[self getTokenWithImgData:imageUrl];
             }
         }
     }];
