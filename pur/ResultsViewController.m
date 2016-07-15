@@ -38,6 +38,15 @@
     _drop_left.alpha = 0.0;
     
     // Do any additional setup after loading the view.
+    NSString *garbage_type = [[NSUserDefaults standardUserDefaults] stringForKey:@"waste_type"];
+    
+    if ([garbage_type  isEqual: @"recycle"]) {
+        
+    } else if ([garbage_type  isEqual: @"compost"]) {
+        
+    } else {
+        
+    }
 }
 
 - (void)didReceiveMemoryWarning {

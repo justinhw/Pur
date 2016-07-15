@@ -166,6 +166,8 @@ NSArray *compost_terms;
             NSData *image_data = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:image_data_sample_buffer];
             UIImage *image = [UIImage imageWithData:image_data];
             
+            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
+            
             // Create path.
             NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
             NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"Image.png"];
@@ -180,7 +182,8 @@ NSArray *compost_terms;
                 AudioServicesPlaySystemSound(1108);
                 NSString *imgDataAsString = [UIImagePNGRepresentation(image) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];;
                 
-                [self getTokenWithImgData:imageUrl];
+                // TODO: uncomment this line to enable API searching
+                //[self getTokenWithImgData:imageUrl];
             }
         }
     }];
