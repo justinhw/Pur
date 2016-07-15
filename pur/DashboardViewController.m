@@ -68,7 +68,7 @@
     faceView = [[UIView alloc] initWithFrame:CGRectMake(200.0, 200.0, 200.0, 200.0)];
     faceView.layer.borderWidth = 3;
     faceView.layer.borderColor = [[UIColor redColor] CGColor];
-    [self.view addSubview:faceView];
+    [self.motion_detection_view addSubview:faceView];
     faceView.hidden = YES;
     
     __unsafe_unretained DashboardViewController * weakSelf = self;
@@ -77,8 +77,9 @@
     [(GPUImageMotionDetector *) filter setMotionDetectionBlock:^(CGPoint motionCentroid, CGFloat motionIntensity, CMTime frameTime) {
         if (motionIntensity > 0.01)
         {
-            CGFloat motionBoxWidth = 2000.0 * motionIntensity;
-            CGSize viewBounds = weakSelf.view.bounds.size;
+            CGFloat viewFrameRatio = weakSelf.motion_detection_view.bounds.size.width / weakSelf.view.bounds.size.width;
+            CGFloat motionBoxWidth = viewFrameRatio * 2000.0 * motionIntensity;
+            CGSize viewBounds = weakSelf.motion_detection_view.bounds.size;
             dispatch_async(dispatch_get_main_queue(), ^{
                 weakSelf->faceView.frame = CGRectMake(round(viewBounds.width * motionCentroid.x - motionBoxWidth / 2.0), round(viewBounds.height * motionCentroid.y - motionBoxWidth / 2.0), motionBoxWidth, motionBoxWidth);
                 weakSelf->faceView.hidden = NO;
