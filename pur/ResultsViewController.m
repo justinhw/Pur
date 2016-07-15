@@ -9,6 +9,7 @@
 #import "ResultsViewController.h"
 
 @interface ResultsViewController ()
+@property (weak, nonatomic) IBOutlet UIProgressView *progress_bar;
 @property (weak, nonatomic) IBOutlet UIImageView *swipe_card;
 @property (weak, nonatomic) IBOutlet UIImageView *drop_right;
 @property (weak, nonatomic) IBOutlet UIImageView *drop_down;
@@ -46,6 +47,13 @@
 
 - (void) viewDidAppear:(BOOL)animated  {
     [super viewDidAppear:animated];
+    
+    //progress
+    _progress_bar.progress = 0.0;
+    [self performSelectorOnMainThread:@selector(makeMyProgressBarMove) withObject:nil waitUntilDone:NO];
+    
+    //check saved data info to see which waste type was found
+    
     //hold item here - flashing
     [UIView animateWithDuration: 1.75f
                           delay: 0.5f
@@ -65,6 +73,19 @@
                      completion:^(BOOL finished){
                      }
      ];
+}
+
+-(void)makeMyProgressBarMove {
+    float actual = [_progress_bar progress];
+    if (actual < 1) {
+      //  _progress_bar.progress = actual + ((float)recievedData/(float)xpectedTotalSize);
+        [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(makeMyProgressBarMove) userInfo:nil repeats:NO];
+    }
+    else{
+        
+        
+        
+    }
 }
 
 /*

@@ -171,6 +171,10 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="swipe_watcard_text" translatesAutoresizingMaskIntoConstraints="NO" id="KrF-Op-k0v">
                                 <rect key="frame" x="205" y="521" width="614" height="152"/>
                             </imageView>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="MPN-kd-xtA">
+                                <rect key="frame" x="115" y="334" width="801" height="2"/>
+                                <color key="tintColor" red="0.060441450809002623" green="0.5294520344964001" blue="0.98654286649214651" alpha="1" colorSpace="calibratedRGB"/>
+                            </progressView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -187,6 +191,7 @@
                         <outlet property="drop_left" destination="kXt-Z6-6jB" id="br6-wF-tUp"/>
                         <outlet property="drop_right" destination="WeL-Dh-a8k" id="WVe-WM-2Du"/>
                         <outlet property="garbage" destination="Wtb-hB-ASa" id="Ycc-IV-4X1"/>
+                        <outlet property="progress_bar" destination="MPN-kd-xtA" id="GC0-7l-PdV"/>
                         <outlet property="recycling" destination="HMY-NV-qlV" id="Ydq-zU-oSV"/>
                         <outlet property="swipe_card" destination="KrF-Op-k0v" id="Oe9-cd-PrN"/>
                     </connections>
