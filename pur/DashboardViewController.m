@@ -24,8 +24,15 @@
 
 @implementation DashboardViewController
 
+NSMutableArray *faceView_centres;
+NSMutableArray *faceView_area_sizes;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    // Initialize elements
+    faceView_centres = [[NSMutableArray alloc] init];
+    faceView_area_sizes = [[NSMutableArray alloc] init];
     
     [self setupFilter];
     
@@ -131,8 +138,72 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    NSLog(@"View changed its geometry");
+    //NSLog(@"View changed its geometry");
+    [faceView_centres addObject:[NSValue valueWithCGPoint:CGPointMake(faceView.frame.origin.x, faceView.frame.origin.y)]];
+    [faceView_area_sizes addObject:[NSNumber numberWithDouble:[self getAreaForCGRect:faceView.frame]]];
+    
+    if ([self getAreaForCGRect:faceView.frame] < [faceView_area_sizes[faceView_area_sizes.count-1] doubleValue]) {
+        [faceView_area_sizes removeAllObjects];
+    }
+    
+    // Check if a person is trying to scan their item
+    if (/*faceView_centres.count > 15 && */faceView_area_sizes.count > 200 && /*[self objectMovedInStraightLine:faceView_centres] && */[self objectGettingCloser:faceView_area_sizes]) {
+        NSLog(@"YAS");
+        //NSLog(@"%f", [faceView_area_sizes[faceView_area_sizes.count-1] doubleValue]);
+        [faceView_area_sizes removeAllObjects];
+    }
 }
+
+/*- (BOOL)objectMovedInStraightLine:(NSMutableArray *) arr {
+    if (arr.count < 15) {
+        return false;
+    }
+    
+    for (int i=0; i<arr.count; i++) {
+        
+    }
+    
+    return true;
+}*/
+
+- (BOOL)objectGettingCloser:(NSMutableArray *) arr {
+    if (arr.count < 200) {
+        return false;
+    }
+    
+    double close_enough_area = 1000;
+    
+    double prev_area = [arr[arr.count-1] doubleValue];
+    
+    for (int i=0; i<200; i++) {
+        int curr_index = (int)arr.count - 200;
+        
+        double curr_area = [arr[curr_index] doubleValue];
+        //NSLog(@"%f", curr_area);
+        
+        // for simplicity, we're going to assume that the user doesn't tease the camera (i.e. moving the object back and forth)
+        if (curr_area < prev_area || (i == arr.count-1 && curr_area < close_enough_area)) {
+            return false;
+        }
+        
+        curr_index += 3;
+    }
+    
+    double last_area = [arr[arr.count-1] doubleValue];
+    
+    
+    if (last_area >= close_enough_area) {
+        NSLog(@"%f", last_area);
+        return true;
+    }
+    
+    return false;
+}
+
+- (double)getAreaForCGRect:(CGRect)rect {
+    return rect.size.height * rect.size.width;
+}
+
 /*
 #pragma mark - Navigation
 
