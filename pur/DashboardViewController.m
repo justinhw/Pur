@@ -19,7 +19,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *garbage_kg;
 @property (weak, nonatomic) IBOutlet UIImageView *hold_item;
 @property (weak, nonatomic) IBOutlet GPUImageView *motion_detection_view;
-
+@property UIView *faceView;
 @end
 
 @implementation DashboardViewController
@@ -47,6 +47,17 @@
     [_compost_kg setFont:[UIFont fontWithName:@"Arial" size:54 ]];
     _compost_kg.textColor = ourGrey;
     _compost_kg.text = @"50 kg";
+    
+    //OBSERVERS
+    [faceView addObserver:self forKeyPath:@"frame" options:0 context:NULL];
+    [faceView.layer addObserver:self forKeyPath:@"bounds" options:0 context:NULL];
+    [faceView.layer addObserver:self forKeyPath:@"transform" options:0 context:NULL];
+    [faceView.layer addObserver:self forKeyPath:@"position" options:0 context:NULL];
+    [faceView.layer addObserver:self forKeyPath:@"zPosition" options:0 context:NULL];
+    [faceView.layer addObserver:self forKeyPath:@"anchorPoint" options:0 context:NULL];
+    [faceView.layer addObserver:self forKeyPath:@"anchorPointZ" options:0 context:NULL];
+    [faceView.layer addObserver:self forKeyPath:@"frame" options:0 context:NULL];
+    [faceView.layer addObserver:self forKeyPath:@"transform" options:0 context:NULL];
 }
 
 - (void)setupFilter;
@@ -117,6 +128,10 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    NSLog(@"View changed its geometry");
+}
 /*
 #pragma mark - Navigation
 
