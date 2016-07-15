@@ -9,6 +9,8 @@
 #import "DashboardViewController.h"
 //#import "ShowcaseFilterViewController.h"
 #import <CoreImage/CoreImage.h>
+#import "LinearRegression.h"
+
 @interface DashboardViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *baby_plant2;
 @property (weak, nonatomic) IBOutlet UIImageView *baby_plant1;
@@ -19,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *garbage_kg;
 @property (weak, nonatomic) IBOutlet UIImageView *hold_item;
 @property (weak, nonatomic) IBOutlet GPUImageView *motion_detection_view;
+@property LinearRegression *sharedInstance;
 @property UIView *faceView;
 @end
 
@@ -33,7 +36,7 @@ NSMutableArray *faceView_area_sizes;
     // Initialize elements
     faceView_centres = [[NSMutableArray alloc] init];
     faceView_area_sizes = [[NSMutableArray alloc] init];
-    
+    self.sharedInstance = [LinearRegression sharedInstance];
     [self setupFilter];
     
     //map elements populated - initially transparent
@@ -143,15 +146,10 @@ NSMutableArray *faceView_area_sizes;
     [faceView_centres addObject:[NSValue valueWithCGPoint:CGPointMake(faceView.frame.origin.x, faceView.frame.origin.y)]];
     [faceView_area_sizes addObject:[NSNumber numberWithDouble:[self getAreaForCGRect:faceView.frame]]];
     
-    if ([self getAreaForCGRect:faceView.frame] < [faceView_area_sizes[faceView_area_sizes.count-1] doubleValue]) {
-        [faceView_area_sizes removeAllObjects];
-    }
-    
     // Check if a person is trying to scan their item
-    if (/*faceView_centres.count > 15 && */faceView_area_sizes.count > 200 && /*[self objectMovedInStraightLine:faceView_centres] && */[self objectGettingCloser:faceView_area_sizes]) {
-        NSLog(@"YAS");
-        //NSLog(@"%f", [faceView_area_sizes[faceView_area_sizes.count-1] doubleValue]);
+    if (faceView_area_sizes.count > 100 && [self objectGettingCloser:faceView_area_sizes]) {
         [faceView_area_sizes removeAllObjects];
+        NSLog(@"Person approaching & resetting data from point a");
     }
 }
 
@@ -168,36 +166,32 @@ NSMutableArray *faceView_area_sizes;
 }*/
 
 - (BOOL)objectGettingCloser:(NSMutableArray *) arr {
-    if (arr.count < 200) {
+    if (arr.count < 100) {
         return false;
     }
     
-    double close_enough_area = 1000;
+    int curr_index = (int)arr.count-100;
     
-    double prev_area = [arr[arr.count-1] doubleValue];
-    
-    for (int i=0; i<200; i++) {
-        int curr_index = (int)arr.count - 200;
-        
+    // Fill the working array
+    for (int i=0; i<100; i++) {
         double curr_area = [arr[curr_index] doubleValue];
-        //NSLog(@"%f", curr_area);
         
-        // for simplicity, we're going to assume that the user doesn't tease the camera (i.e. moving the object back and forth)
-        if (curr_area < prev_area || (i == arr.count-1 && curr_area < close_enough_area)) {
-            return false;
-        }
-        
-        curr_index += 3;
+        DataItem *point = [DataItem new];
+        point.xValue = (double)i;
+        point.yValue = curr_area;
+        [self.sharedInstance addDataObject:point];
+        curr_index++;
     }
     
-    double last_area = [arr[arr.count-1] doubleValue];
+    RegressionResult *regressionResult = [self.sharedInstance calculate];
+    //NSLog(@"Slope %f", regressionResult.slope);
     
-    
-    if (last_area >= close_enough_area) {
-        NSLog(@"%f", last_area);
+    if (regressionResult.slope > 400) {
         return true;
     }
     
+    [self.sharedInstance clear];
+
     return false;
 }
 
