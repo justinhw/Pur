@@ -29,15 +29,11 @@
     
     [self setupFilter];
     
-//    ShowcaseFilterViewController *showcaseFilterViewController = [[ShowcaseFilterViewController alloc] init];
-//    [showcaseFilterViewController setupFilter];
-    
     //map elements populated - initially transparent
     _baby_plant1.alpha = 0.0;
     _baby_plant2.alpha = 0.0;
     _dead_tree1.alpha = 1.0;
 
-    
     UIColor *ourGrey = [UIColor colorWithRed:90.0f/255.0f green:87.0f/255.0f blue:87.0f/255.0f alpha:1.0];
     
     [_garbage_kg setFont:[UIFont fontWithName:@"Arial" size:54 ]];
@@ -51,7 +47,6 @@
     [_compost_kg setFont:[UIFont fontWithName:@"Arial" size:54 ]];
     _compost_kg.textColor = ourGrey;
     _compost_kg.text = @"50 kg";
-    
 }
 
 - (void)setupFilter;

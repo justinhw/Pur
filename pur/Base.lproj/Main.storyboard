@@ -200,25 +200,6 @@
             </objects>
             <point key="canvasLocation" x="91" y="3659"/>
         </scene>
-        <!--Showcase Filter View Controller-->
-        <scene sceneID="02Q-Dy-s8G">
-            <objects>
-                <viewController id="MZE-Jm-7K0" customClass="ShowcaseFilterViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="dQy-Zo-eAg"/>
-                        <viewControllerLayoutGuide type="bottom" id="pJx-65-uNR"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Vxb-pD-jLw" customClass="GPUImageView">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="aiK-Uq-wtx" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="225" y="4755"/>
-        </scene>
     </scenes>
     <resources>
         <image name="baby_plant" width="215" height="127"/>
