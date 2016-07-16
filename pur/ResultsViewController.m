@@ -41,11 +41,13 @@
     NSString *garbage_type = [[NSUserDefaults standardUserDefaults] stringForKey:@"waste_type"];
     
     if ([garbage_type  isEqual: @"recycle"]) {
+        _recycling.alpha = 1.0;
         
     } else if ([garbage_type  isEqual: @"compost"]) {
+        _compost.alpha = 1.0;
         
     } else {
-        
+        _garbage.alpha = 1.0;
     }
 }
 

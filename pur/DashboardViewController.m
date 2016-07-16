@@ -10,9 +10,10 @@
 //#import "ShowcaseFilterViewController.h"
 #import <CoreImage/CoreImage.h>
 @interface DashboardViewController ()
-@property (weak, nonatomic) IBOutlet UIImageView *baby_plant2;
 @property (weak, nonatomic) IBOutlet UIImageView *baby_plant1;
+@property (weak, nonatomic) IBOutlet UIImageView *baby_plant2;
 @property (weak, nonatomic) IBOutlet UIImageView *dead_tree1;
+@property (weak, nonatomic) IBOutlet UIImageView *dead_tree2;
 
 @property (weak, nonatomic) IBOutlet UILabel *compost_kg;
 @property (weak, nonatomic) IBOutlet UILabel *recycling_kg;
@@ -32,7 +33,8 @@
     //map elements populated - initially transparent
     _baby_plant1.alpha = 0.0;
     _baby_plant2.alpha = 0.0;
-    _dead_tree1.alpha = 1.0;
+    _dead_tree1.alpha = 0.0;
+    _dead_tree2.alpha = 0.0;
 
     UIColor *ourGrey = [UIColor colorWithRed:90.0f/255.0f green:87.0f/255.0f blue:87.0f/255.0f alpha:1.0];
     
@@ -118,7 +120,7 @@
                           delay:0.5f
                         options:  UIViewKeyframeAnimationOptionAutoreverse | UIViewKeyframeAnimationOptionRepeat
                      animations:^(void) {
-                         _hold_item.alpha = 0.0;
+                         _hold_item.alpha = 0.25;
                      }
                      completion:^(BOOL finished){
                      }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="lHQ-yn-6yD">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15D21" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="lHQ-yn-6yD">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -60,9 +60,12 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mww-pH-04C" customClass="GPUImageView">
-                                <rect key="frame" x="77" y="191" width="410" height="272"/>
+                                <rect key="frame" x="31" y="546" width="410" height="272"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="dead_plant" translatesAutoresizingMaskIntoConstraints="NO" id="zsL-4B-Gcs">
+                                <rect key="frame" x="585" y="299" width="112" height="153"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -78,6 +81,7 @@
                         <outlet property="baby_plant2" destination="uj9-bm-EBf" id="V1w-sK-kAA"/>
                         <outlet property="compost_kg" destination="i7V-sN-51K" id="Y62-5e-uCK"/>
                         <outlet property="dead_tree1" destination="eNd-Iz-g2A" id="Ibc-Xd-MK4"/>
+                        <outlet property="dead_tree2" destination="zsL-4B-Gcs" id="lxc-X8-6Dt"/>
                         <outlet property="garbage_kg" destination="5TA-EE-Rye" id="s92-HI-UNp"/>
                         <outlet property="hold_item" destination="aic-1d-aqT" id="0fi-2d-Jc0"/>
                         <outlet property="motion_detection_view" destination="Mww-pH-04C" id="egy-au-5DS"/>
@@ -146,7 +150,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="result_page" translatesAutoresizingMaskIntoConstraints="NO" id="cp5-Od-jyj">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="suggestion_text" translatesAutoresizingMaskIntoConstraints="NO" id="JYm-qA-2x7">
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wDk-D6-9Wf">
@@ -182,12 +186,6 @@
                             </progressView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="tbl-0P-KO1" firstAttribute="top" secondItem="cp5-Od-jyj" secondAttribute="bottom" id="fWm-eY-Eva"/>
-                            <constraint firstItem="cp5-Od-jyj" firstAttribute="leading" secondItem="BhV-C4-qQ7" secondAttribute="leadingMargin" constant="-20" id="jBM-ej-tVH"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="cp5-Od-jyj" secondAttribute="trailing" constant="-20" id="owO-pJ-80O"/>
-                            <constraint firstItem="cp5-Od-jyj" firstAttribute="top" secondItem="BhV-C4-qQ7" secondAttribute="topMargin" id="t81-R5-FcS"/>
-                        </constraints>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
@@ -216,7 +214,7 @@
         <image name="drop_item_here_right_text" width="959" height="328"/>
         <image name="garbage_text" width="1673" height="462"/>
         <image name="recycling_text" width="1802" height="425"/>
-        <image name="result_page" width="2050" height="1538"/>
+        <image name="suggestion_text" width="2048" height="1536"/>
         <image name="swipe_watcard_text" width="1177" height="274"/>
         <image name="text_item" width="1661" height="253"/>
         <image name="tree" width="229" height="309"/>

@@ -33,16 +33,19 @@ AVCaptureStillImageOutput *still_image_output;
 NSArray *recycling_terms;
 NSArray *compost_terms;
 
+int count = 5;
+
 #pragma mark - View Loading Stuff
 - (void)viewDidLoad {
     [super viewDidLoad];
+    count = 5;
     // Do any additional setup after loading the view, typically from a nib.
     
     [self.view setBackgroundColor:[UIColor colorWithRed:0.47 green:0.78 blue:0.60 alpha:1.0]];
     
     [_countdown setFont:[UIFont fontWithName:@"Helvetica" size:215 ]];
     _countdown.textColor = [UIColor whiteColor];
-    _countdown.text = @"3";
+    _countdown.text = @"5";
     
     //timer for numerical countdown
     [NSTimer scheduledTimerWithTimeInterval:1.0
@@ -61,11 +64,9 @@ NSArray *compost_terms;
 }
 
 - (void)triggerCountdownValue:(NSTimer *)timer {
-    if([_countdown.text  isEqual: @"3"]){
-        _countdown.text = @"2";
-    }
-    else if([_countdown.text  isEqual: @"2"]){
-        _countdown.text = @"1";
+    if(![_countdown.text  isEqual: @"1"]){
+        _countdown.text = [NSString stringWithFormat:@"%d", count];
+        count--;
     }
     else if([_countdown.text  isEqual: @"1"]){
         //take a picture;
@@ -139,54 +140,54 @@ NSArray *compost_terms;
 }
 
 - (void)capturePhoto {
-    AVCaptureConnection *video_connection = nil;
-    
-    for (AVCaptureConnection *connection in still_image_output.connections) {
-        for (AVCaptureInputPort *port in [connection inputPorts]) {
-            if ([[port mediaType] isEqual:AVMediaTypeVideo]) {
-                video_connection = connection;
-                
-                UIDeviceOrientation device_orientation = [[UIDevice currentDevice] orientation];
-                AVCaptureVideoOrientation av_capture_orientation;
-                
-                if ( device_orientation == UIDeviceOrientationLandscapeLeft )
-                    av_capture_orientation  = AVCaptureVideoOrientationLandscapeRight;
-                
-                else if ( device_orientation == UIDeviceOrientationLandscapeRight )
-                    av_capture_orientation  = AVCaptureVideoOrientationLandscapeLeft;
-                
-                [video_connection setVideoOrientation:av_capture_orientation];
-                break;
-            }
-        }
-    }
-    
-    [still_image_output captureStillImageAsynchronouslyFromConnection:video_connection completionHandler:^(CMSampleBufferRef image_data_sample_buffer, NSError *error) {
-        if (image_data_sample_buffer != NULL) {
-            NSData *image_data = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:image_data_sample_buffer];
-            UIImage *image = [UIImage imageWithData:image_data];
-            
-            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
-            
-            // Create path.
-            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-            NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"Image.png"];
-            
-            // Save image.
-            [UIImagePNGRepresentation(image) writeToFile:filePath atomically:YES];
-            
-            NSURL *imageUrl = [NSURL fileURLWithPath:filePath isDirectory:NO];
-            
-            // Save image to camera roll so that we can get a path for the image to send to the API later
-            if (image != nil) {
-                AudioServicesPlaySystemSound(1108);
-                NSString *imgDataAsString = [UIImagePNGRepresentation(image) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];;
-                
-                // TODO: uncomment this line to enable API searching
-                //[self getTokenWithImgData:imageUrl];
-            }
-        }
-    }];
+//    AVCaptureConnection *video_connection = nil;
+//    
+//    for (AVCaptureConnection *connection in still_image_output.connections) {
+//        for (AVCaptureInputPort *port in [connection inputPorts]) {
+//            if ([[port mediaType] isEqual:AVMediaTypeVideo]) {
+//                video_connection = connection;
+//                
+//                UIDeviceOrientation device_orientation = [[UIDevice currentDevice] orientation];
+//                AVCaptureVideoOrientation av_capture_orientation;
+//                
+//                if ( device_orientation == UIDeviceOrientationLandscapeLeft )
+//                    av_capture_orientation  = AVCaptureVideoOrientationLandscapeRight;
+//                
+//                else if ( device_orientation == UIDeviceOrientationLandscapeRight )
+//                    av_capture_orientation  = AVCaptureVideoOrientationLandscapeLeft;
+//                
+//                [video_connection setVideoOrientation:av_capture_orientation];
+//                break;
+//            }
+//        }
+//    }
+//    
+//    [still_image_output captureStillImageAsynchronouslyFromConnection:video_connection completionHandler:^(CMSampleBufferRef image_data_sample_buffer, NSError *error) {
+//        if (image_data_sample_buffer != NULL) {
+//            NSData *image_data = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:image_data_sample_buffer];
+//            UIImage *image = [UIImage imageWithData:image_data];
+//            
+//            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
+//            
+//            // Create path.
+//            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+//            NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"Image.png"];
+//            
+//            // Save image.
+//            [UIImagePNGRepresentation(image) writeToFile:filePath atomically:YES];
+//            
+//            NSURL *imageUrl = [NSURL fileURLWithPath:filePath isDirectory:NO];
+//            
+//            // Save image to camera roll so that we can get a path for the image to send to the API later
+//            if (image != nil) {
+//                AudioServicesPlaySystemSound(1108);
+//                NSString *imgDataAsString = [UIImagePNGRepresentation(image) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];;
+//                
+//                // TODO: uncomment this line to enable API searching
+//                //[self getTokenWithImgData:imageUrl];
+//            }
+//        }
+//    }];
 }
 
 // Helen: this is where we would have to trigger the garbage, recycling or compost flows
