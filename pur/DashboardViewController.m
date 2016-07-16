@@ -7,7 +7,7 @@
 //
 
 #import "DashboardViewController.h"
-//#import "ShowcaseFilterViewController.h"
+#import "ViewController.h"
 #import <CoreImage/CoreImage.h>
 #import "LinearRegression.h"
 
@@ -36,6 +36,7 @@ NSMutableArray *faceView_area_sizes;
     // Initialize elements
     faceView_centres = [[NSMutableArray alloc] init];
     faceView_area_sizes = [[NSMutableArray alloc] init];
+    
     self.sharedInstance = [LinearRegression sharedInstance];
     [self setupFilter];
     
@@ -150,8 +151,13 @@ NSMutableArray *faceView_area_sizes;
     if (faceView_area_sizes.count > 100 && [self objectGettingCloser:faceView_area_sizes]) {
         [faceView_area_sizes removeAllObjects];
         NSLog(@"Person approaching & resetting data from point a");
+        
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        ViewController *viewController = (ViewController *)[storyboard instantiateViewControllerWithIdentifier:@"ViewController"];
+        [self presentViewController:viewController animated:YES completion:nil];
     }
 }
+
 
 /*- (BOOL)objectMovedInStraightLine:(NSMutableArray *) arr {
     if (arr.count < 15) {

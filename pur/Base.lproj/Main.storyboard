@@ -91,7 +91,7 @@
         <!--hold_for-->
         <scene sceneID="P8D-Rn-72C">
             <objects>
-                <viewController title="hold_for" id="BSm-lW-tHW" customClass="ViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ViewController" title="hold_for" id="BSm-lW-tHW" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="x6s-5V-GTV"/>
                         <viewControllerLayoutGuide type="bottom" id="4fY-kg-3Sd"/>
@@ -137,7 +137,7 @@
         <!--results-->
         <scene sceneID="nOz-fI-FFt">
             <objects>
-                <viewController title="results" id="PQW-vY-bh9" customClass="ResultsViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ResultsViewController" title="results" id="PQW-vY-bh9" customClass="ResultsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="MRo-0e-dPz"/>
                         <viewControllerLayoutGuide type="bottom" id="tbl-0P-KO1"/>

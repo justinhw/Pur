@@ -199,8 +199,9 @@ NSArray *compost_terms;
         [[NSUserDefaults standardUserDefaults] setObject:@"recycle" forKey:@"waste_type"];
     }
     
-    ResultsViewController *resultsViewController = [[ResultsViewController alloc] init];
-    [self presentViewController:resultsViewController animated:NO completion:NULL];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    ResultsViewController *resultsViewController = (ResultsViewController *)[storyboard instantiateViewControllerWithIdentifier:@"ResultsViewController"];
+    [self presentViewController:resultsViewController animated:YES completion:nil];
 }
 
 - (BOOL)array:(NSArray *)array ContainsStringOrSimilar:(NSString *)string {
