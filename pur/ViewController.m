@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import "ResultsViewController.h"
 #import <UNIRest.h>
-#import <GPUImage.h>
+#import <CoreImage/CoreImage.h>
 
 @import AssetsLibrary;
 
@@ -19,7 +19,7 @@
 
 @property NSString* token;
 @property NSString* objectDescription;
-
+@property (weak, nonatomic) IBOutlet GPUImageView *motion_detection_view;
 @end
 
 @interface APPViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
@@ -32,12 +32,16 @@ AVCaptureStillImageOutput *still_image_output;
 
 NSArray *recycling_terms;
 NSArray *compost_terms;
+GPUImageFilter *no_filter;
 
 #pragma mark - View Loading Stuff
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
+    no_filter = [[GPUImageFilter alloc] init];
+    
+    [self setupFilter];
     [self.view setBackgroundColor:[UIColor colorWithRed:0.47 green:0.78 blue:0.60 alpha:1.0]];
     
     [_countdown setFont:[UIFont fontWithName:@"Helvetica" size:215 ]];
@@ -71,37 +75,63 @@ NSArray *compost_terms;
         //take a picture;
         [timer invalidate];
         timer = nil;
-        [self capturePhoto];
+        
+        [self takePhoto];
     }
 }
 
+- (void)setupFilter;
+{
+    filter = [[GPUImageMotionDetector alloc] init];
+    
+    videoCamera = [[GPUImageVideoCamera alloc] initWithSessionPreset:AVCaptureSessionPreset640x480 cameraPosition:AVCaptureDevicePositionFront];
+    
+    videoCamera.outputImageOrientation = [UIApplication sharedApplication].statusBarOrientation;
+    videoCamera.horizontallyMirrorFrontFacingCamera = YES;
+    
+    self.title = @"Motion Detector";
+    
+    [videoCamera addTarget:filter];
+    
+    videoCamera.runBenchmark = YES;
+    GPUImageView *filterView = (GPUImageView *)self.motion_detection_view;
+    
+    
+    faceView = [[UIView alloc] initWithFrame:CGRectMake(200.0, 200.0, 200.0, 200.0)];
+    faceView.layer.borderWidth = 3;
+    faceView.layer.borderColor = [[UIColor redColor] CGColor];
+    [self.motion_detection_view addSubview:faceView];
+    faceView.hidden = YES;
+    
+    __unsafe_unretained ViewController * weakSelf = self;
+    
+    [(GPUImageMotionDetector *)filter setLowPassFilterStrength:0.75]; // values range between 0.0 & 1.0
+    [(GPUImageMotionDetector *) filter setMotionDetectionBlock:^(CGPoint motionCentroid, CGFloat motionIntensity, CMTime frameTime) {
+        if (motionIntensity > 0.01)
+        {
+            CGFloat viewFrameRatio = weakSelf.motion_detection_view.bounds.size.width / weakSelf.view.bounds.size.width;
+            CGFloat motionBoxWidth = viewFrameRatio * 2000.0 * motionIntensity;
+            CGSize viewBounds = weakSelf.motion_detection_view.bounds.size;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                weakSelf->faceView.frame = CGRectMake(round(viewBounds.width * motionCentroid.x - motionBoxWidth / 2.0), round(viewBounds.height * motionCentroid.y - motionBoxWidth / 2.0), motionBoxWidth, motionBoxWidth);
+                weakSelf->faceView.hidden = NO;
+            });
+        }
+        else
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                weakSelf->faceView.hidden = YES;
+            });
+        }
+        
+    }];
+    
+    [videoCamera addTarget:filterView];
+    
+    [videoCamera startCameraCapture];
+}
+
 - (void)viewWillAppear:(BOOL)animated {
-    session = [[AVCaptureSession alloc] init];
-    [session setSessionPreset:AVCaptureSessionPresetPhoto];
-    
-    AVCaptureDevice *input_device = [self frontFacingCameraIfAvailable];
-    NSError *error;
-    AVCaptureDeviceInput *device_input = [AVCaptureDeviceInput deviceInputWithDevice:input_device error:&error];
-    
-    if ([session canAddInput:device_input]) {
-        [session addInput:device_input];
-    }
-    
-    AVCaptureVideoPreviewLayer *preview_layer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:session];
-    preview_layer.connection.videoOrientation = [self videoOrientationFromCurrentDeviceOrientation];
-    
-    [preview_layer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
-    CALayer *root_layer = [[self view] layer];
-    [root_layer setMasksToBounds:YES];
-    CGRect frame = frame_for_capture.frame;
-    [preview_layer setFrame:frame];
-    [root_layer insertSublayer:preview_layer atIndex:0];
-    
-    still_image_output = [[AVCaptureStillImageOutput alloc] init];
-    NSDictionary *output_settings = [[NSDictionary alloc] initWithObjectsAndKeys:AVVideoCodecJPEG, AVVideoCodecKey, nil];
-    [still_image_output setOutputSettings:output_settings];
-    [session addOutput:still_image_output];
-    [session startRunning];
 }
 
 #pragma mark - Camera Session
@@ -134,8 +164,29 @@ NSArray *compost_terms;
     return captureDevice;
 }
 
-- (IBAction)takePhoto:(id)sender {
-    [self capturePhoto];
+-(void)takePhoto{
+    [videoCamera pauseCameraCapture];
+    
+    // Pause the motion detection filter stuff and setup the ipad camera 
+    session = [[AVCaptureSession alloc] init];
+    [session setSessionPreset:AVCaptureSessionPresetPhoto];
+    
+    AVCaptureDevice *input_device = [self frontFacingCameraIfAvailable];
+    NSError *error;
+    AVCaptureDeviceInput *device_input = [AVCaptureDeviceInput deviceInputWithDevice:input_device error:&error];
+    
+    if ([session canAddInput:device_input]) {
+        [session addInput:device_input];
+    }
+    
+    still_image_output = [[AVCaptureStillImageOutput alloc] init];
+    NSDictionary *output_settings = [[NSDictionary alloc] initWithObjectsAndKeys:AVVideoCodecJPEG, AVVideoCodecKey, nil];
+    [still_image_output setOutputSettings:output_settings];
+    [session addOutput:still_image_output];
+    [session startRunning];
+    
+    // Need a bit of delay so that everything has time to be setup - horrible hack though
+    [self performSelector:@selector(capturePhoto) withObject:nil afterDelay:0.1];
 }
 
 - (void)capturePhoto {
