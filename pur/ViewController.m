@@ -46,7 +46,7 @@ GPUImageFilter *no_filter;
     
     [_countdown setFont:[UIFont fontWithName:@"Helvetica" size:215 ]];
     _countdown.textColor = [UIColor whiteColor];
-    _countdown.text = @"3";
+    _countdown.text = @"5";
     
     //timer for numerical countdown
     [NSTimer scheduledTimerWithTimeInterval:1.0
@@ -65,7 +65,13 @@ GPUImageFilter *no_filter;
 }
 
 - (void)triggerCountdownValue:(NSTimer *)timer {
-    if([_countdown.text  isEqual: @"3"]){
+    if([_countdown.text  isEqual: @"5"]){
+        _countdown.text = @"4";
+    }
+    else if([_countdown.text  isEqual: @"4"]){
+        _countdown.text = @"3";
+    }
+    else if([_countdown.text  isEqual: @"3"]){
         _countdown.text = @"2";
     }
     else if([_countdown.text  isEqual: @"2"]){
