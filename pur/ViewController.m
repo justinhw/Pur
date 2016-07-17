@@ -303,7 +303,7 @@ GPUImageFilter *no_filter;
             [self getDescriptionWithToken];
         });
         
-    } else if ([keyPath isEqualToString:@"description"]) { // call the function to implement once we get a return result here!
+    } else if ([keyPath isEqualToString:@"objectDescription"]) { // call the function to implement once we get a return result here!
         
         NSLog(_objectDescription);
         [self handleImageSearchResultForSearchTerm:_objectDescription];
