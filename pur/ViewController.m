@@ -241,6 +241,8 @@ GPUImageFilter *no_filter;
                 
                 // TODO: uncomment this line to enable API searching
                 //[self getTokenWithImgData:imageUrl];
+                // testing function for flow, remove this when above line gets uncommented
+                [self setValue:@"apple fruit" forKey:@"objectDescription"];
             }
         }
     }];
