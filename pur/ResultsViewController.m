@@ -10,7 +10,6 @@
 #import "DashboardViewController.h"
 
 @interface ResultsViewController ()
-@property (weak, nonatomic) IBOutlet UIProgressView *progress_bar;
 @property (weak, nonatomic) IBOutlet UIImageView *swipe_card;
 @property (weak, nonatomic) IBOutlet UIImageView *drop_right;
 @property (weak, nonatomic) IBOutlet UIImageView *drop_down;
@@ -27,7 +26,7 @@
 UIImageView *waste_type;
 UIImageView *drop_dir;
 
-float timerValue = 0.0;
+// float timerValue = 0.0;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -43,9 +42,27 @@ float timerValue = 0.0;
     _drop_down.alpha = 0.0;
     _drop_left.alpha = 0.0;
     
-    //progress bar
-    timerValue = 0.0;
-    _progress_bar.alpha = 1.0;
+    //check saved data info to see which waste type was found
+    NSString *garbage_type = [[NSUserDefaults standardUserDefaults] stringForKey:@"waste_type"];
+    
+    if ([garbage_type  isEqual: @"recycle"]) {
+        waste_type = _recycling;
+        drop_dir = _drop_right;
+        
+    } else if ([garbage_type  isEqual: @"compost"]) {
+        waste_type = _compost;
+        drop_dir = _drop_down;
+        
+    } else {
+        waste_type = _garbage;
+        drop_dir = _drop_left;
+    }
+
+    waste_type.alpha= 1.0;
+    drop_dir.alpha = 1.0;
+    
+    [self startAnimations];
+    [self performSelector:@selector(switchToDashboard) withObject:nil afterDelay:18.0];
     
 }
 
@@ -56,10 +73,6 @@ float timerValue = 0.0;
 
 - (void) viewDidAppear:(BOOL)animated  {
     [super viewDidAppear:animated];
-    
-    //progress
-    _progress_bar.progress = 0.0;
-    [self performSelectorOnMainThread:@selector(makeMyProgressBarMove) withObject:nil waitUntilDone:NO];
 }
 
 -(void) startAnimations{
@@ -91,38 +104,6 @@ float timerValue = 0.0;
     
 }
 
--(void)makeMyProgressBarMove {
-    timerValue++;
-    float actual = [_progress_bar progress];
-    if (actual < 1) {
-        _progress_bar.progress = actual + ((float)timerValue/(float)4.0);
-        [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(makeMyProgressBarMove) userInfo:nil repeats:NO];
-    }
-    else{
-        //check saved data info to see which waste type was found
-        NSString *garbage_type = [[NSUserDefaults standardUserDefaults] stringForKey:@"waste_type"];
-        
-        if ([garbage_type  isEqual: @"recycle"]) {
-            waste_type = _recycling;
-            drop_dir = _drop_right;
-            
-        } else if ([garbage_type  isEqual: @"compost"]) {
-            waste_type = _compost;
-            drop_dir = _drop_down;
-            
-        } else {
-            waste_type = _garbage;
-            drop_dir = _drop_left;
-        }
-        
-        _progress_bar.alpha = 0.0;
-        waste_type.alpha= 1.0;
-        drop_dir.alpha = 1.0;
-        
-        [self startAnimations];
-        [self performSelector:@selector(switchToDashboard) withObject:nil afterDelay:18.0];
-}
-
 /*
 #pragma mark - Navigation
 
@@ -132,5 +113,5 @@ float timerValue = 0.0;
     // Pass the selected object to the new view controller.
 }
 */
-}
+//}
 @end

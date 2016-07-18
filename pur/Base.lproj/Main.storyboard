@@ -115,6 +115,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="suggestion_text" translatesAutoresizingMaskIntoConstraints="NO" id="2iy-Ly-zh2">
+                                <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                            </imageView>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eN1-ln-XOj">
+                                <rect key="frame" x="112" y="363" width="801" height="2"/>
+                                <color key="backgroundColor" red="0.67586995809999995" green="1" blue="0.80729680569999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" red="0.096776740589999993" green="0.30386231149999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="trackTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            </progressView>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5t0-DB-W7I" customClass="GPUImageView">
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -136,7 +145,10 @@
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
                         <outlet property="countdown" destination="cEm-RQ-o7z" id="B8l-P4-3Sy"/>
+                        <outlet property="hold_for_text" destination="iyV-0o-fRv" id="vqQ-l7-5XP"/>
                         <outlet property="motion_detection_view" destination="5t0-DB-W7I" id="wkm-1b-jRV"/>
+                        <outlet property="progress_bar" destination="eN1-ln-XOj" id="RnF-Rj-0k7"/>
+                        <outlet property="suggestion_text" destination="2iy-Ly-zh2" id="nzC-Qx-bUt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dvK-gc-Mfn" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -179,12 +191,6 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="swipe_watcard_text" translatesAutoresizingMaskIntoConstraints="NO" id="KrF-Op-k0v">
                                 <rect key="frame" x="283" y="521" width="614" height="152"/>
                             </imageView>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZSv-S1-fL5">
-                                <rect key="frame" x="112" y="600" width="801" height="2"/>
-                                <color key="backgroundColor" red="0.67586995805689865" green="1" blue="0.80729680571862017" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="tintColor" red="0.096776740589989529" green="0.30386231148963205" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="trackTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                            </progressView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -195,7 +201,6 @@
                         <outlet property="drop_left" destination="kXt-Z6-6jB" id="br6-wF-tUp"/>
                         <outlet property="drop_right" destination="WeL-Dh-a8k" id="WVe-WM-2Du"/>
                         <outlet property="garbage" destination="Wtb-hB-ASa" id="Ycc-IV-4X1"/>
-                        <outlet property="progress_bar" destination="ZSv-S1-fL5" id="bUs-1j-TYA"/>
                         <outlet property="recycling" destination="HMY-NV-qlV" id="Ydq-zU-oSV"/>
                         <outlet property="swipe_card" destination="KrF-Op-k0v" id="Oe9-cd-PrN"/>
                     </connections>

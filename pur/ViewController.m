@@ -16,7 +16,9 @@
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *countdown;
 @property (nonatomic) UIButton *takePhotoBtn;
-
+@property (weak, nonatomic) IBOutlet UIProgressView *progress_bar;
+@property (weak, nonatomic) IBOutlet UIImageView *suggestion_text;
+@property (weak, nonatomic) IBOutlet UILabel *hold_for_text;
 @property NSString* token;
 @property NSString* objectDescription;
 @property (weak, nonatomic) IBOutlet GPUImageView *motion_detection_view;
@@ -35,12 +37,18 @@ NSArray *compost_terms;
 GPUImageFilter *no_filter;
 
 int count = 5;
+float timerValue = 0.0;
 
 #pragma mark - View Loading Stuff
 - (void)viewDidLoad {
     [super viewDidLoad];
     count = 5;
+    
     // Do any additional setup after loading the view, typically from a nib.
+    
+    // hide progress bar stuff
+    _progress_bar.alpha = 0.0;
+    _suggestion_text.alpha = 0.0;
     
     no_filter = [[GPUImageFilter alloc] init];
     
@@ -79,6 +87,7 @@ int count = 5;
                        @"jug",
                        @"plastic",
                        @"recycle",
+                       @"steel",
                        nil];
     compost_terms = [NSArray arrayWithObjects:
                      @"banana",
@@ -229,6 +238,11 @@ int count = 5;
     [session addOutput:still_image_output];
     [session startRunning];
     
+    [self hideCameraView];
+    [self showProgressBar];
+    self.progress_bar.progress = 0.0;
+    [self performSelectorOnMainThread:@selector(makeMyProgressBarMove) withObject:nil waitUntilDone:NO];
+    
     // Need a bit of delay so that everything has time to be setup - horrible hack though
     [self performSelector:@selector(capturePhoto) withObject:nil afterDelay:0.1];
 }
@@ -280,7 +294,7 @@ int count = 5;
                 // TODO: uncomment this line to enable API searching
                 [self getTokenWithImgData:imageUrl];
                 //testing function for flow, remove this when above line gets uncommented
-//                [self setValue:@"bottle" forKey:@"objectDescription"];
+                //[self setValue:@"bottle" forKey:@"objectDescription"];
             }
         }
     }];
@@ -294,11 +308,17 @@ int count = 5;
     } else if ([self array:recycling_terms ContainsStringOrSimilar:search_term]) {
         // proceed with recycling flow
         [[NSUserDefaults standardUserDefaults] setObject:@"recycle" forKey:@"waste_type"];
+    } else {
+        [[NSUserDefaults standardUserDefaults] setObject:@"garbage" forKey:@"waste_type"];
     }
     
+    [self switchToResultsViewController];
+}
+
+- (void) switchToResultsViewController {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     ResultsViewController *resultsViewController = (ResultsViewController *)[storyboard instantiateViewControllerWithIdentifier:@"ResultsViewController"];
-    [self presentViewController:resultsViewController animated:YES completion:nil];
+    [self presentViewController:resultsViewController animated:NO completion:nil];
 }
 
 - (BOOL)array:(NSArray *)array ContainsStringOrSimilar:(NSString *)string {
@@ -314,21 +334,6 @@ int count = 5;
     }
     
     return false;
-}
-
-- (NSString*)getPhotoPath:(UIImage*)image {
-    if (image != nil) {
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
-                                                             NSUserDomainMask, YES);
-        NSString *documentsDirectory = [paths objectAtIndex:0];
-        NSString *path = [documentsDirectory stringByAppendingPathComponent:
-                          @"test.png" ];
-        NSData* data = UIImagePNGRepresentation(image);
-        [data writeToFile:path atomically:YES];
-        return path;
-    }
-    
-    return @"error";
 }
 
 #pragma mark - Reverse Image Search API
@@ -350,6 +355,30 @@ int count = 5;
         
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
+}
+
+- (void) hideCameraView {
+    self.motion_detection_view.alpha = 0.0;
+    self.countdown.alpha = 0.0;
+    self.hold_for_text.alpha = 0.0;
+}
+
+- (void) showProgressBar {
+    self.progress_bar.alpha = 1.0;
+    self.suggestion_text.alpha = 1.0;
+}
+
+-(void)makeMyProgressBarMove {
+    timerValue++;
+    NSTimer *timer;
+    float actual = [_progress_bar progress];
+    if (actual < 1) {
+        _progress_bar.progress = actual + ((float)timerValue/(float)20.0);
+        timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(makeMyProgressBarMove) userInfo:nil repeats:NO];
+    } else {
+        [timer invalidate];
+        NSLog(@"progress bar done");
     }
 }
 
