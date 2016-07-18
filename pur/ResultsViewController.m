@@ -7,6 +7,7 @@
 //
 
 #import "ResultsViewController.h"
+#import "DashboardViewController.h"
 
 @interface ResultsViewController ()
 @property (weak, nonatomic) IBOutlet UIProgressView *progress_bar;
@@ -23,6 +24,11 @@
 
 @implementation ResultsViewController
 
+UIImageView *waste_type;
+UIImageView *drop_dir;
+
+float timerValue = 0.0;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -33,22 +39,14 @@
     
     //init text
     _swipe_card.alpha = 0.0;
-    _drop_right.alpha = 1.0;
+    _drop_right.alpha = 0.0;
     _drop_down.alpha = 0.0;
     _drop_left.alpha = 0.0;
     
-    // Do any additional setup after loading the view.
-    NSString *garbage_type = [[NSUserDefaults standardUserDefaults] stringForKey:@"waste_type"];
+    //progress bar
+    timerValue = 0.0;
+    _progress_bar.alpha = 1.0;
     
-    if ([garbage_type  isEqual: @"recycle"]) {
-        _recycling.alpha = 1.0;
-        
-    } else if ([garbage_type  isEqual: @"compost"]) {
-        _compost.alpha = 1.0;
-        
-    } else {
-        _garbage.alpha = 1.0;
-    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -62,41 +60,67 @@
     //progress
     _progress_bar.progress = 0.0;
     [self performSelectorOnMainThread:@selector(makeMyProgressBarMove) withObject:nil waitUntilDone:NO];
-    
-    //check saved data info to see which waste type was found
-    
-    //hold item here - flashing
-    [UIView animateWithDuration: 1.75f
-                          delay: 0.5f
+}
+
+-(void) startAnimations{
+    [UIView animateWithDuration: 2.0f
+                          delay: 3.0f
                         options:  UIViewKeyframeAnimationOptionAutoreverse | UIViewKeyframeAnimationOptionRepeat
                      animations:^(void) {
-                         _drop_right.alpha = 0.0;
+                         drop_dir.alpha = 0.0;
                      }
                      completion:^(BOOL finished){
                      }
      ];
-    [UIView animateWithDuration: 1.75f
-                          delay: 2.4f
+    [UIView animateWithDuration: 2.0f
+                          delay: 3.0f
                         options:  UIViewKeyframeAnimationOptionAutoreverse | UIViewKeyframeAnimationOptionRepeat
                      animations:^(void) {
-                         _swipe_card.alpha = 0.0;
+                         _swipe_card.alpha = 1.0;
                      }
                      completion:^(BOOL finished){
                      }
      ];
 }
 
+-(void)switchToDashboard{
+    //switch to dashboard
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    DashboardViewController *dashboardViewController = (DashboardViewController *)[storyboard instantiateViewControllerWithIdentifier:@"DashboardViewController"];
+    [self presentViewController:dashboardViewController animated:YES completion:nil];
+    
+}
+
 -(void)makeMyProgressBarMove {
+    timerValue++;
     float actual = [_progress_bar progress];
     if (actual < 1) {
-      //  _progress_bar.progress = actual + ((float)recievedData/(float)xpectedTotalSize);
-        [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(makeMyProgressBarMove) userInfo:nil repeats:NO];
+        _progress_bar.progress = actual + ((float)timerValue/(float)4.0);
+        [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(makeMyProgressBarMove) userInfo:nil repeats:NO];
     }
     else{
+        //check saved data info to see which waste type was found
+        NSString *garbage_type = [[NSUserDefaults standardUserDefaults] stringForKey:@"waste_type"];
         
+        if ([garbage_type  isEqual: @"recycle"]) {
+            waste_type = _recycling;
+            drop_dir = _drop_right;
+            
+        } else if ([garbage_type  isEqual: @"compost"]) {
+            waste_type = _compost;
+            drop_dir = _drop_down;
+            
+        } else {
+            waste_type = _garbage;
+            drop_dir = _drop_left;
+        }
         
+        _progress_bar.alpha = 0.0;
+        waste_type.alpha= 1.0;
+        drop_dir.alpha = 1.0;
         
-    }
+        [self startAnimations];
+        [self performSelector:@selector(switchToDashboard) withObject:nil afterDelay:18.0];
 }
 
 /*
@@ -108,5 +132,5 @@
     // Pass the selected object to the new view controller.
 }
 */
-
+}
 @end

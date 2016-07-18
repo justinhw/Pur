@@ -20,6 +20,9 @@
 		E80268501D24315A00EB5BD5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E802684E1D24315A00EB5BD5 /* LaunchScreen.storyboard */; };
 		E802685B1D24315A00EB5BD5 /* purTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E802685A1D24315A00EB5BD5 /* purTests.m */; };
 		E80268661D24315A00EB5BD5 /* purUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E80268651D24315A00EB5BD5 /* purUITests.m */; };
+		E8E155121D39A31C00C26F18 /* DataItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E1550C1D39A31C00C26F18 /* DataItem.m */; };
+		E8E155131D39A31C00C26F18 /* LinearRegression.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E1550F1D39A31C00C26F18 /* LinearRegression.m */; };
+		E8E155141D39A31C00C26F18 /* RegressionResult.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E155111D39A31C00C26F18 /* RegressionResult.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +72,13 @@
 		E80268611D24315A00EB5BD5 /* purUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = purUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E80268651D24315A00EB5BD5 /* purUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = purUITests.m; sourceTree = "<group>"; };
 		E80268671D24315A00EB5BD5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E8E1550B1D39A31C00C26F18 /* DataItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataItem.h; sourceTree = "<group>"; };
+		E8E1550C1D39A31C00C26F18 /* DataItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataItem.m; sourceTree = "<group>"; };
+		E8E1550D1D39A31C00C26F18 /* LinearRegression-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LinearRegression-Prefix.pch"; sourceTree = "<group>"; };
+		E8E1550E1D39A31C00C26F18 /* LinearRegression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinearRegression.h; sourceTree = "<group>"; };
+		E8E1550F1D39A31C00C26F18 /* LinearRegression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinearRegression.m; sourceTree = "<group>"; };
+		E8E155101D39A31C00C26F18 /* RegressionResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegressionResult.h; sourceTree = "<group>"; };
+		E8E155111D39A31C00C26F18 /* RegressionResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegressionResult.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +144,13 @@
 		E802683F1D24315A00EB5BD5 /* pur */ = {
 			isa = PBXGroup;
 			children = (
+				E8E1550B1D39A31C00C26F18 /* DataItem.h */,
+				E8E1550C1D39A31C00C26F18 /* DataItem.m */,
+				E8E1550D1D39A31C00C26F18 /* LinearRegression-Prefix.pch */,
+				E8E1550E1D39A31C00C26F18 /* LinearRegression.h */,
+				E8E1550F1D39A31C00C26F18 /* LinearRegression.m */,
+				E8E155101D39A31C00C26F18 /* RegressionResult.h */,
+				E8E155111D39A31C00C26F18 /* RegressionResult.m */,
 				E80268431D24315A00EB5BD5 /* AppDelegate.h */,
 				E80268441D24315A00EB5BD5 /* AppDelegate.m */,
 				3BD961E61D3407AE00ADAC7F /* DashboardViewController.h */,
@@ -454,8 +471,11 @@
 			files = (
 				E80268481D24315A00EB5BD5 /* ViewController.m in Sources */,
 				E80268451D24315A00EB5BD5 /* AppDelegate.m in Sources */,
+				E8E155131D39A31C00C26F18 /* LinearRegression.m in Sources */,
 				E80268421D24315A00EB5BD5 /* main.m in Sources */,
 				3BD961E81D3407AE00ADAC7F /* DashboardViewController.m in Sources */,
+				E8E155141D39A31C00C26F18 /* RegressionResult.m in Sources */,
+				E8E155121D39A31C00C26F18 /* DataItem.m in Sources */,
 				3BD961EB1D340CBC00ADAC7F /* ResultsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

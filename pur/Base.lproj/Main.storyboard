@@ -8,7 +8,7 @@
         <!--dashboard-->
         <scene sceneID="0if-T0-zJE">
             <objects>
-                <viewController title="dashboard" id="lHQ-yn-6yD" customClass="DashboardViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DashboardViewController" title="dashboard" useStoryboardIdentifierAsRestorationIdentifier="YES" id="lHQ-yn-6yD" customClass="DashboardViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Lfk-RJ-9wC"/>
                         <viewControllerLayoutGuide type="bottom" id="1sG-UV-tp0"/>
@@ -29,20 +29,20 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="text_item" translatesAutoresizingMaskIntoConstraints="NO" id="aic-1d-aqT">
                                 <rect key="frame" x="77" y="610" width="870" height="128"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="300 kg" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5TA-EE-Rye">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5TA-EE-Rye" userLabel="Garbage">
                                 <rect key="frame" x="83" y="91" width="193" height="74"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="300 kg" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pwe-CF-G4f">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pwe-CF-G4f" userLabel="Recycling">
                                 <rect key="frame" x="416" y="91" width="193" height="74"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="tree" translatesAutoresizingMaskIntoConstraints="NO" id="VGj-L6-jbz">
-                                <rect key="frame" x="705" y="255" width="117" height="159"/>
+                                <rect key="frame" x="705" y="254" width="117" height="159"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="dead_plant" translatesAutoresizingMaskIntoConstraints="NO" id="eNd-Iz-g2A">
                                 <rect key="frame" x="329" y="228" width="112" height="153"/>
@@ -53,19 +53,34 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="baby_plant" translatesAutoresizingMaskIntoConstraints="NO" id="uj9-bm-EBf">
                                 <rect key="frame" x="449" y="351" width="118" height="62"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="300 kg" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i7V-sN-51K">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i7V-sN-51K" userLabel="Compost">
                                 <rect key="frame" x="748" y="91" width="193" height="74"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mww-pH-04C" customClass="GPUImageView">
-                                <rect key="frame" x="31" y="546" width="410" height="272"/>
+                            <view alpha="0.0" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mww-pH-04C" customClass="GPUImageView">
+                                <rect key="frame" x="77" y="191" width="410" height="272"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="dead_plant" translatesAutoresizingMaskIntoConstraints="NO" id="zsL-4B-Gcs">
-                                <rect key="frame" x="585" y="299" width="112" height="153"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VR5-nH-sA6">
+                                <rect key="frame" x="0.0" y="0.0" width="345" height="234"/>
+                                <connections>
+                                    <action selector="clearMapAssets:" destination="lHQ-yn-6yD" eventType="touchUpInside" id="XDt-X8-0mb"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="dead_plant" translatesAutoresizingMaskIntoConstraints="NO" id="lkP-L8-TxY" userLabel="Dead tree2">
+                                <rect key="frame" x="585" y="297" width="112" height="153"/>
                             </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="arrow" translatesAutoresizingMaskIntoConstraints="NO" id="2yi-TG-Wtn">
+                                <rect key="frame" x="952" y="351" width="54" height="309"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x6d-Ai-3pY">
+                                <rect key="frame" x="676" y="0.0" width="348" height="201.5"/>
+                                <connections>
+                                    <action selector="clearCountValues:" destination="lHQ-yn-6yD" eventType="touchUpInside" id="NEt-eS-NTO"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -77,15 +92,17 @@
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
+                        <outlet property="arrow" destination="2yi-TG-Wtn" id="sr9-q8-qST"/>
                         <outlet property="baby_plant1" destination="LAE-vm-sar" id="Kyw-db-mmm"/>
                         <outlet property="baby_plant2" destination="uj9-bm-EBf" id="V1w-sK-kAA"/>
-                        <outlet property="compost_kg" destination="i7V-sN-51K" id="Y62-5e-uCK"/>
+                        <outlet property="compost" destination="i7V-sN-51K" id="nTs-OW-o27"/>
                         <outlet property="dead_tree1" destination="eNd-Iz-g2A" id="Ibc-Xd-MK4"/>
-                        <outlet property="dead_tree2" destination="zsL-4B-Gcs" id="lxc-X8-6Dt"/>
-                        <outlet property="garbage_kg" destination="5TA-EE-Rye" id="s92-HI-UNp"/>
+                        <outlet property="dead_tree2" destination="lkP-L8-TxY" id="Egk-Pk-F97"/>
+                        <outlet property="full_tree" destination="VGj-L6-jbz" id="JP6-57-A52"/>
+                        <outlet property="garbage" destination="5TA-EE-Rye" id="3kL-Kv-ZvX"/>
                         <outlet property="hold_item" destination="aic-1d-aqT" id="0fi-2d-Jc0"/>
                         <outlet property="motion_detection_view" destination="Mww-pH-04C" id="egy-au-5DS"/>
-                        <outlet property="recycling_kg" destination="pwe-CF-G4f" id="dd8-aH-mdo"/>
+                        <outlet property="recycling" destination="pwe-CF-G4f" id="GdU-69-JQd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Okv-Ng-0vy" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -95,7 +112,7 @@
         <!--hold_for-->
         <scene sceneID="P8D-Rn-72C">
             <objects>
-                <viewController title="hold_for" id="BSm-lW-tHW" customClass="ViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ViewController" title="hold_for" id="BSm-lW-tHW" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="x6s-5V-GTV"/>
                         <viewControllerLayoutGuide type="bottom" id="4fY-kg-3Sd"/>
@@ -104,6 +121,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5t0-DB-W7I" customClass="GPUImageView">
+                                <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aRr-tO-FU9">
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                                 <connections>
@@ -117,31 +138,27 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="HOLD FOR:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iyV-0o-fRv">
-                                <rect key="frame" x="255" y="83" width="515.5" height="98"/>
+                                <rect key="frame" x="255" y="53" width="515.5" height="98"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="100"/>
                                 <color key="textColor" name="alternateSelectedControlTextColor" catalog="System" colorSpace="catalog"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="46V-XF-cAL">
-                                <rect key="frame" x="322" y="240" width="380.5" height="384"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
                         </subviews>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
                         <outlet property="countdown" destination="cEm-RQ-o7z" id="B8l-P4-3Sy"/>
-                        <outlet property="frame_for_capture" destination="46V-XF-cAL" id="hdH-7O-VuE"/>
+                        <outlet property="motion_detection_view" destination="5t0-DB-W7I" id="wkm-1b-jRV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dvK-gc-Mfn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="91" y="2781"/>
+            <point key="canvasLocation" x="91" y="2853"/>
         </scene>
         <!--results-->
         <scene sceneID="nOz-fI-FFt">
             <objects>
-                <viewController title="results" id="PQW-vY-bh9" customClass="ResultsViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ResultsViewController" title="results" id="PQW-vY-bh9" customClass="ResultsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="MRo-0e-dPz"/>
                         <viewControllerLayoutGuide type="bottom" id="tbl-0P-KO1"/>
@@ -150,23 +167,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="suggestion_text" translatesAutoresizingMaskIntoConstraints="NO" id="JYm-qA-2x7">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="suggestion_text" translatesAutoresizingMaskIntoConstraints="NO" id="rRq-Ge-MU5">
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wDk-D6-9Wf">
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                                 <connections>
-                                    <segue destination="lHQ-yn-6yD" kind="modal" id="HxC-7p-88V"/>
+                                    <segue destination="lHQ-yn-6yD" kind="modal" id="Va8-FU-4ul"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="recycling_text" translatesAutoresizingMaskIntoConstraints="NO" id="HMY-NV-qlV">
-                                <rect key="frame" x="96" y="268" width="832" height="160"/>
+                                <rect key="frame" x="88" y="268" width="832" height="160"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="garbage_text" translatesAutoresizingMaskIntoConstraints="NO" id="Wtb-hB-ASa">
-                                <rect key="frame" x="189" y="268" width="647" height="160"/>
+                                <rect key="frame" x="173" y="268" width="647" height="160"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="compost_text" translatesAutoresizingMaskIntoConstraints="NO" id="aRy-26-zDK">
-                                <rect key="frame" x="149" y="268" width="726" height="160"/>
+                                <rect key="frame" x="140" y="268" width="726" height="160"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="drop_item_here_left_text" translatesAutoresizingMaskIntoConstraints="NO" id="kXt-Z6-6jB">
                                 <rect key="frame" x="280" y="516" width="465" height="186"/>
@@ -178,11 +195,13 @@
                                 <rect key="frame" x="280" y="516" width="465" height="177"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="swipe_watcard_text" translatesAutoresizingMaskIntoConstraints="NO" id="KrF-Op-k0v">
-                                <rect key="frame" x="205" y="521" width="614" height="152"/>
+                                <rect key="frame" x="283" y="521" width="614" height="152"/>
                             </imageView>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="MPN-kd-xtA">
-                                <rect key="frame" x="115" y="334" width="801" height="2"/>
-                                <color key="tintColor" red="0.060441450809002623" green="0.5294520344964001" blue="0.98654286649214651" alpha="1" colorSpace="calibratedRGB"/>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZSv-S1-fL5">
+                                <rect key="frame" x="112" y="600" width="801" height="2"/>
+                                <color key="backgroundColor" red="0.67586995805689865" green="1" blue="0.80729680571862017" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" red="0.096776740589989529" green="0.30386231148963205" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="trackTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </progressView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -194,17 +213,18 @@
                         <outlet property="drop_left" destination="kXt-Z6-6jB" id="br6-wF-tUp"/>
                         <outlet property="drop_right" destination="WeL-Dh-a8k" id="WVe-WM-2Du"/>
                         <outlet property="garbage" destination="Wtb-hB-ASa" id="Ycc-IV-4X1"/>
-                        <outlet property="progress_bar" destination="MPN-kd-xtA" id="GC0-7l-PdV"/>
+                        <outlet property="progress_bar" destination="ZSv-S1-fL5" id="bUs-1j-TYA"/>
                         <outlet property="recycling" destination="HMY-NV-qlV" id="Ydq-zU-oSV"/>
                         <outlet property="swipe_card" destination="KrF-Op-k0v" id="Oe9-cd-PrN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qT1-fD-UOI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="91" y="3659"/>
+            <point key="canvasLocation" x="5" y="4001"/>
         </scene>
     </scenes>
     <resources>
+        <image name="arrow" width="110" height="677"/>
         <image name="baby_plant" width="215" height="127"/>
         <image name="compost_text" width="1635" height="425"/>
         <image name="dashboard_main" width="2050" height="1538"/>

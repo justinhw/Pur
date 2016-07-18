@@ -7,48 +7,58 @@
 //
 
 #import "DashboardViewController.h"
-//#import "ShowcaseFilterViewController.h"
+#import "ViewController.h"
 #import <CoreImage/CoreImage.h>
+#import "LinearRegression.h"
+
 @interface DashboardViewController ()
+- (IBAction)clearCountValues:(id)sender;
+- (IBAction)clearMapAssets:(id)sender;
 @property (weak, nonatomic) IBOutlet UIImageView *baby_plant1;
 @property (weak, nonatomic) IBOutlet UIImageView *baby_plant2;
 @property (weak, nonatomic) IBOutlet UIImageView *dead_tree1;
+@property (weak, nonatomic) IBOutlet UIImageView *full_tree;
 @property (weak, nonatomic) IBOutlet UIImageView *dead_tree2;
 
-@property (weak, nonatomic) IBOutlet UILabel *compost_kg;
-@property (weak, nonatomic) IBOutlet UILabel *recycling_kg;
-@property (weak, nonatomic) IBOutlet UILabel *garbage_kg;
+@property (weak, nonatomic) IBOutlet UILabel *compost;
+@property (weak, nonatomic) IBOutlet UILabel *recycling;
+@property (weak, nonatomic) IBOutlet UILabel *garbage;
 @property (weak, nonatomic) IBOutlet UIImageView *hold_item;
+@property (weak, nonatomic) IBOutlet UIImageView *arrow;
 @property (weak, nonatomic) IBOutlet GPUImageView *motion_detection_view;
+@property LinearRegression *sharedInstance;
 @property UIView *faceView;
 @end
 
 @implementation DashboardViewController
 
+int garbage_count;
+int compost_count;
+int recycling_count;
+
+NSMutableArray *faceView_centres;
+NSMutableArray *faceView_area_sizes;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSLog(@"dead tree1: %f", _dead_tree1.alpha);
+    NSLog(@"dead tree2: %f", _dead_tree2.alpha);
     
+    // Initialize elements
+    faceView_centres = [[NSMutableArray alloc] init];
+    faceView_area_sizes = [[NSMutableArray alloc] init];
+    
+    self.sharedInstance = [LinearRegression sharedInstance];
     [self setupFilter];
-    
-    //map elements populated - initially transparent
-    _baby_plant1.alpha = 0.0;
-    _baby_plant2.alpha = 0.0;
-    _dead_tree1.alpha = 0.0;
-    _dead_tree2.alpha = 0.0;
 
     UIColor *ourGrey = [UIColor colorWithRed:90.0f/255.0f green:87.0f/255.0f blue:87.0f/255.0f alpha:1.0];
     
-    [_garbage_kg setFont:[UIFont fontWithName:@"Arial" size:54 ]];
-    _garbage_kg.textColor = ourGrey;
-    _garbage_kg.text = @"200 kg";
-    
-    [_recycling_kg setFont:[UIFont fontWithName:@"Arial" size:54 ]];
-    _recycling_kg.textColor = ourGrey;
-    _recycling_kg.text = @"150 kg";
-    
-    [_compost_kg setFont:[UIFont fontWithName:@"Arial" size:54 ]];
-    _compost_kg.textColor = ourGrey;
-    _compost_kg.text = @"50 kg";
+    [_garbage setFont:[UIFont fontWithName:@"Arial" size:54 ]];
+    _garbage.textColor = ourGrey;
+    [_recycling setFont:[UIFont fontWithName:@"Arial" size:54 ]];
+    _recycling.textColor = ourGrey;
+    [_compost setFont:[UIFont fontWithName:@"Arial" size:54 ]];
+    _compost.textColor = ourGrey;
     
     //OBSERVERS
     [faceView addObserver:self forKeyPath:@"frame" options:0 context:NULL];
@@ -60,6 +70,128 @@
     [faceView.layer addObserver:self forKeyPath:@"anchorPointZ" options:0 context:NULL];
     [faceView.layer addObserver:self forKeyPath:@"frame" options:0 context:NULL];
     [faceView.layer addObserver:self forKeyPath:@"transform" options:0 context:NULL];
+    
+    NSString *hasBeenLoaded = [[NSUserDefaults standardUserDefaults] stringForKey:@"hasBeenLoaded"];
+    if([hasBeenLoaded isEqual: @"false"] || !(hasBeenLoaded)){  //false or exists
+        
+        //map elements populated - initially transparent
+        _baby_plant1.alpha = 0.0;
+        _baby_plant2.alpha = 0.0;
+        _dead_tree1.alpha = 0.0;
+        _dead_tree2.alpha = 0.0;
+        _full_tree.alpha = 0.0;
+        
+        NSLog(@"dead tree1: %f", _dead_tree1.alpha);
+        NSLog(@"dead tree2: %f", _dead_tree2.alpha);
+        
+        garbage_count = 0;
+        compost_count = 0;
+        recycling_count = 0;
+        
+        _compost.text = [NSString stringWithFormat:@"%d", compost_count];
+        _garbage.text = [NSString stringWithFormat:@"%d", garbage_count];
+        _recycling.text = [NSString stringWithFormat:@"%d", recycling_count];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:@"true" forKey:@"hasBeenLoaded"];
+        
+    }else if([hasBeenLoaded isEqual: @"true"]){
+        NSLog(@"dead tree1: %f", _dead_tree1.alpha);
+        NSLog(@"dead tree2: %f", _dead_tree2.alpha);
+        [self updateDashboardAssets];
+    }
+    
+}
+
+- (void) viewDidAppear:(BOOL)animated  {
+    [super viewDidAppear:animated];
+    
+    //hold item here - flashing
+    [UIView animateWithDuration: 1.75f
+                          delay:0.5f
+                        options:  UIViewKeyframeAnimationOptionAutoreverse | UIViewKeyframeAnimationOptionRepeat
+                     animations:^(void) {
+                         _hold_item.alpha = 0.25;
+                         _arrow.alpha = 0.25;
+                     }
+                     completion:^(BOOL finished){
+                     }
+     ];
+}
+
+-(void)updateDashboardAssets{
+    //values and map
+    NSString *garbage_type = [[NSUserDefaults standardUserDefaults] stringForKey:@"waste_type"];
+    
+    if ([garbage_type  isEqual: @"recycle"]) {
+        recycling_count++;
+        _recycling.text = [NSString stringWithFormat:@"%d", recycling_count];
+        if(_baby_plant1.alpha == 0.0){
+            [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseIn
+                             animations:^{ _baby_plant1.alpha = 1.0;}
+                             completion:nil];
+            _baby_plant1.alpha = 1.0;
+        }else{
+            [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseIn
+                             animations:^{ _full_tree.alpha = 1.0;}
+                             completion:nil];
+            _full_tree.alpha = 1.0;
+        }
+        
+    } else if ([garbage_type  isEqual: @"compost"]) {
+        compost_count++;
+        _compost.text = [NSString stringWithFormat:@"%d", compost_count];
+        [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseIn
+                         animations:^{ _baby_plant2.alpha = 1.0;}
+                         completion:nil];
+        _baby_plant2.alpha = 1.0;
+        
+    } else {
+        garbage_count++;
+        _garbage.text = [NSString stringWithFormat:@"%d", garbage_count];
+        NSLog(@"dead tree1: %f", _dead_tree1.alpha);
+        NSLog(@"dead tree2: %f", _dead_tree2.alpha);
+        if(_dead_tree1.alpha == 0.0){
+//            [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseIn
+//                             animations:^{ _dead_tree1.alpha = 1.0;}
+//                             completion:nil];
+            _dead_tree1.alpha = 1.0;
+            NSLog(@"dead tree1: %f", _dead_tree1.alpha);
+            NSLog(@"dead tree2: %f", _dead_tree2.alpha);
+            
+        }else{
+//            [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseIn
+//                             animations:^{ _dead_tree2.alpha = 1.0;}
+//                             completion:nil];
+            _dead_tree2.alpha = 1.0;
+            NSLog(@"dead tree1: %f", _dead_tree1.alpha);
+            NSLog(@"dead tree2: %f", _dead_tree2.alpha);
+        };
+        
+    }
+    
+    garbage_type = nil;
+}
+
+- (IBAction)clearCountValues:(id)sender {
+    garbage_count = 0;
+    compost_count = 0;
+    recycling_count = 0;
+    
+    _compost.text = [NSString stringWithFormat:@"%d", compost_count];
+    _garbage.text = [NSString stringWithFormat:@"%d", garbage_count];
+    _recycling.text = [NSString stringWithFormat:@"%d", recycling_count];
+    
+    
+    //pretends app was quit and next run will be as if app just reinitialized
+    [[NSUserDefaults standardUserDefaults] setObject:@"false" forKey:@"hasBeenLoaded"];
+}
+
+- (IBAction)clearMapAssets:(id)sender{
+    _baby_plant1.alpha = 0.0;
+    _baby_plant2.alpha = 0.0;
+    _dead_tree1.alpha = 0.0;
+    _dead_tree2.alpha = 0.0;
+    _full_tree.alpha = 0.0;
 }
 
 - (void)setupFilter;
@@ -77,7 +209,6 @@
     
     videoCamera.runBenchmark = YES;
     GPUImageView *filterView = (GPUImageView *)self.motion_detection_view;
-    
     
     faceView = [[UIView alloc] initWithFrame:CGRectMake(200.0, 200.0, 200.0, 200.0)];
     faceView.layer.borderWidth = 3;
@@ -113,20 +244,6 @@
     [videoCamera startCameraCapture];
 }
 
-- (void) viewDidAppear:(BOOL)animated  {
-    [super viewDidAppear:animated];
-    //hold item here - flashing
-    [UIView animateWithDuration: 1.75f
-                          delay:0.5f
-                        options:  UIViewKeyframeAnimationOptionAutoreverse | UIViewKeyframeAnimationOptionRepeat
-                     animations:^(void) {
-                         _hold_item.alpha = 0.25;
-                     }
-                     completion:^(BOOL finished){
-                     }
-     ];
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -134,8 +251,68 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    NSLog(@"View changed its geometry");
+    //NSLog(@"View changed its geometry");
+    [faceView_centres addObject:[NSValue valueWithCGPoint:CGPointMake(faceView.frame.origin.x, faceView.frame.origin.y)]];
+    [faceView_area_sizes addObject:[NSNumber numberWithDouble:[self getAreaForCGRect:faceView.frame]]];
+    
+    // Check if a person is trying to scan their item
+    if (faceView_area_sizes.count > 100 && [self objectGettingCloser:faceView_area_sizes]) {
+        [faceView_area_sizes removeAllObjects];
+        NSLog(@"Person approaching & resetting data from point a");
+        
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        ViewController *viewController = (ViewController *)[storyboard instantiateViewControllerWithIdentifier:@"ViewController"];
+        [self presentViewController:viewController animated:YES completion:nil];
+    }
 }
+
+
+/*- (BOOL)objectMovedInStraightLine:(NSMutableArray *) arr {
+    if (arr.count < 15) {
+        return false;
+    }
+    
+    for (int i=0; i<arr.count; i++) {
+        
+    }
+    
+    return true;
+}*/
+
+- (BOOL)objectGettingCloser:(NSMutableArray *) arr {
+    if (arr.count < 100) {
+        return false;
+    }
+    
+    int curr_index = (int)arr.count-100;
+    
+    // Fill the working array
+    for (int i=0; i<100; i++) {
+        double curr_area = [arr[curr_index] doubleValue];
+        
+        DataItem *point = [DataItem new];
+        point.xValue = (double)i;
+        point.yValue = curr_area;
+        [self.sharedInstance addDataObject:point];
+        curr_index++;
+    }
+    
+    RegressionResult *regressionResult = [self.sharedInstance calculate];
+    //NSLog(@"Slope %f", regressionResult.slope);
+    
+    if (regressionResult.slope > 400) {
+        return true;
+    }
+    
+    [self.sharedInstance clear];
+
+    return false;
+}
+
+- (double)getAreaForCGRect:(CGRect)rect {
+    return rect.size.height * rect.size.width;
+}
+
 /*
 #pragma mark - Navigation
 
