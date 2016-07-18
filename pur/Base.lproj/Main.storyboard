@@ -78,7 +78,7 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x6d-Ai-3pY">
                                 <rect key="frame" x="676" y="0.0" width="348" height="201.5"/>
                                 <connections>
-                                    <action selector="clearCountValues:" destination="lHQ-yn-6yD" eventType="touchUpInside" id="NEt-eS-NTO"/>
+                                    <action selector="fakeRestartApp:" destination="lHQ-yn-6yD" eventType="touchUpInside" id="vgV-SY-nq0"/>
                                 </connections>
                             </button>
                         </subviews>

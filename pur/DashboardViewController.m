@@ -12,7 +12,7 @@
 #import "LinearRegression.h"
 
 @interface DashboardViewController ()
-- (IBAction)clearCountValues:(id)sender;
+- (IBAction)fakeRestartApp:(id)sender;
 - (IBAction)clearMapAssets:(id)sender;
 @property (weak, nonatomic) IBOutlet UIImageView *baby_plant1;
 @property (weak, nonatomic) IBOutlet UIImageView *baby_plant2;
@@ -41,8 +41,6 @@ NSMutableArray *faceView_area_sizes;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSLog(@"dead tree1: %f", _dead_tree1.alpha);
-    NSLog(@"dead tree2: %f", _dead_tree2.alpha);
     
     // Initialize elements
     faceView_centres = [[NSMutableArray alloc] init];
@@ -71,18 +69,14 @@ NSMutableArray *faceView_area_sizes;
     [faceView.layer addObserver:self forKeyPath:@"frame" options:0 context:NULL];
     [faceView.layer addObserver:self forKeyPath:@"transform" options:0 context:NULL];
     
+    _baby_plant1.alpha = 0.0;
+    _baby_plant2.alpha = 0.0;
+    _dead_tree1.alpha = 0.0;
+    _dead_tree2.alpha = 0.0;
+    _full_tree.alpha = 0.0;
+    
     NSString *hasBeenLoaded = [[NSUserDefaults standardUserDefaults] stringForKey:@"hasBeenLoaded"];
-    if([hasBeenLoaded isEqual: @"false"] || !(hasBeenLoaded)){  //false or exists
-        
-        //map elements populated - initially transparent
-        _baby_plant1.alpha = 0.0;
-        _baby_plant2.alpha = 0.0;
-        _dead_tree1.alpha = 0.0;
-        _dead_tree2.alpha = 0.0;
-        _full_tree.alpha = 0.0;
-        
-        NSLog(@"dead tree1: %f", _dead_tree1.alpha);
-        NSLog(@"dead tree2: %f", _dead_tree2.alpha);
+    if([hasBeenLoaded isEqual: @"false"] || !(hasBeenLoaded)){  //false or doesnt exist
         
         garbage_count = 0;
         compost_count = 0;
@@ -95,8 +89,6 @@ NSMutableArray *faceView_area_sizes;
         [[NSUserDefaults standardUserDefaults] setObject:@"true" forKey:@"hasBeenLoaded"];
         
     }else if([hasBeenLoaded isEqual: @"true"]){
-        NSLog(@"dead tree1: %f", _dead_tree1.alpha);
-        NSLog(@"dead tree2: %f", _dead_tree2.alpha);
         [self updateDashboardAssets];
     }
     
@@ -125,46 +117,26 @@ NSMutableArray *faceView_area_sizes;
     if ([garbage_type  isEqual: @"recycle"]) {
         recycling_count++;
         _recycling.text = [NSString stringWithFormat:@"%d", recycling_count];
-        if(_baby_plant1.alpha == 0.0){
-            [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseIn
-                             animations:^{ _baby_plant1.alpha = 1.0;}
-                             completion:nil];
+        if(recycling_count == 1){
             _baby_plant1.alpha = 1.0;
-        }else{
-            [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseIn
-                             animations:^{ _full_tree.alpha = 1.0;}
-                             completion:nil];
+        }else if(recycling_count >= 2){
+            _baby_plant1.alpha = 1.0;
             _full_tree.alpha = 1.0;
         }
         
     } else if ([garbage_type  isEqual: @"compost"]) {
         compost_count++;
         _compost.text = [NSString stringWithFormat:@"%d", compost_count];
-        [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseIn
-                         animations:^{ _baby_plant2.alpha = 1.0;}
-                         completion:nil];
         _baby_plant2.alpha = 1.0;
         
     } else {
         garbage_count++;
         _garbage.text = [NSString stringWithFormat:@"%d", garbage_count];
-        NSLog(@"dead tree1: %f", _dead_tree1.alpha);
-        NSLog(@"dead tree2: %f", _dead_tree2.alpha);
-        if(_dead_tree1.alpha == 0.0){
-//            [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseIn
-//                             animations:^{ _dead_tree1.alpha = 1.0;}
-//                             completion:nil];
+        if(garbage_count == 1){
             _dead_tree1.alpha = 1.0;
-            NSLog(@"dead tree1: %f", _dead_tree1.alpha);
-            NSLog(@"dead tree2: %f", _dead_tree2.alpha);
-            
-        }else{
-//            [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseIn
-//                             animations:^{ _dead_tree2.alpha = 1.0;}
-//                             completion:nil];
+        }else if(garbage_count >= 2){
+            _dead_tree1.alpha = 1.0;
             _dead_tree2.alpha = 1.0;
-            NSLog(@"dead tree1: %f", _dead_tree1.alpha);
-            NSLog(@"dead tree2: %f", _dead_tree2.alpha);
         };
         
     }
@@ -172,17 +144,8 @@ NSMutableArray *faceView_area_sizes;
     garbage_type = nil;
 }
 
-- (IBAction)clearCountValues:(id)sender {
-    garbage_count = 0;
-    compost_count = 0;
-    recycling_count = 0;
-    
-    _compost.text = [NSString stringWithFormat:@"%d", compost_count];
-    _garbage.text = [NSString stringWithFormat:@"%d", garbage_count];
-    _recycling.text = [NSString stringWithFormat:@"%d", recycling_count];
-    
-    
-    //pretends app was quit and next run will be as if app just reinitialized
+- (IBAction)fakeRestartApp:(id)sender {
+    //sets value back to false as if to pretend app has never been loaded
     [[NSUserDefaults standardUserDefaults] setObject:@"false" forKey:@"hasBeenLoaded"];
 }
 
@@ -192,6 +155,14 @@ NSMutableArray *faceView_area_sizes;
     _dead_tree1.alpha = 0.0;
     _dead_tree2.alpha = 0.0;
     _full_tree.alpha = 0.0;
+    
+    garbage_count = 0;
+    compost_count = 0;
+    recycling_count = 0;
+    
+    _compost.text = [NSString stringWithFormat:@"%d", compost_count];
+    _garbage.text = [NSString stringWithFormat:@"%d", garbage_count];
+    _recycling.text = [NSString stringWithFormat:@"%d", recycling_count];
 }
 
 - (void)setupFilter;
