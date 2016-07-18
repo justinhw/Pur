@@ -292,9 +292,9 @@ float timerValue = 0.0;
                 //NSString *imgDataAsString = [UIImagePNGRepresentation(image) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];;
                 
                 // TODO: uncomment this line to enable API searching
-                [self getTokenWithImgData:imageUrl];
+//                [self getTokenWithImgData:imageUrl];
                 //testing function for flow, remove this when above line gets uncommented
-                //[self setValue:@"bottle" forKey:@"objectDescription"];
+                [self setValue:@"bottle" forKey:@"objectDescription"];
             }
         }
     }];
@@ -384,7 +384,7 @@ float timerValue = 0.0;
 
 - (void)getTokenWithImgData:(NSURL *)imgDataAsString {
     
-    NSDictionary *headers = @{@"X-Mashape-Key": @"V9GfedXBsamshd7XrQQz8xMvHvNtp1gHVLyjsnjk54QH3xCxLr"};
+    NSDictionary *headers = @{@"X-Mashape-Key": @""};
     NSDictionary *parameters = @{@"image_request[image]": imgDataAsString, @"image_request[locale]": @"en_US"};
     UNIUrlConnection *asyncConnection = [[UNIRest post:^(UNISimpleRequest *request) {
         [request setUrl:@"https://camfind.p.mashape.com/image_requests"];
@@ -410,7 +410,7 @@ float timerValue = 0.0;
     NSString *url = @"https://camfind.p.mashape.com/image_responses/";
     NSString *requestUrl = [NSString stringWithFormat:@"%@%@", url, _token];
     
-    NSDictionary *headers = @{@"X-Mashape-Key": @"V9GfedXBsamshd7XrQQz8xMvHvNtp1gHVLyjsnjk54QH3xCxLr", @"Accept": @"application/json"};
+    NSDictionary *headers = @{@"X-Mashape-Key": @"", @"Accept": @"application/json"};
     UNIUrlConnection *asyncConnection = [[UNIRest get:^(UNISimpleRequest *request) {
         [request setUrl:requestUrl];
         [request setHeaders:headers];
