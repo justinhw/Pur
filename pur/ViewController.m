@@ -278,9 +278,9 @@ int count = 5;
                 //NSString *imgDataAsString = [UIImagePNGRepresentation(image) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];;
                 
                 // TODO: uncomment this line to enable API searching
-                //[self getTokenWithImgData:imageUrl];
+                [self getTokenWithImgData:imageUrl];
                 //testing function for flow, remove this when above line gets uncommented
-                [self setValue:@"bottle" forKey:@"objectDescription"];
+//                [self setValue:@"bottle" forKey:@"objectDescription"];
             }
         }
     }];
@@ -336,7 +336,7 @@ int count = 5;
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqualToString:@"token"]) {// calls getDescriptionWithToken whenever the "token" value is updated (i.e. new photo)
-        
+        NSLog(@"Token: %@", _token);
         double delayInSeconds = 20.0; // Mashape recommends we wait 8-10 seconds before querying, and if we don't get a return result repeat every 1-2 seconds after. After some rough testing I found 20 seconds to be stable....if we have time and enough query calls after I'll add functionality to do it 8-10 seconds after and repeat every 1-2 seconds until we get a result
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
@@ -345,7 +345,7 @@ int count = 5;
         
     } else if ([keyPath isEqualToString:@"objectDescription"]) { // call the function to implement once we get a return result here!
         
-        NSLog(_objectDescription);
+        NSLog(@"Object description: %@", _objectDescription);
         [self handleImageSearchResultForSearchTerm:_objectDescription];
         
     } else {
@@ -355,7 +355,7 @@ int count = 5;
 
 - (void)getTokenWithImgData:(NSURL *)imgDataAsString {
     
-    NSDictionary *headers = @{@"X-Mashape-Key": @"horcs5Q9Ddmsh1lzJ9dhI2q2h3D1p1cvrI0jsnYzNbOKZ4M16r"};
+    NSDictionary *headers = @{@"X-Mashape-Key": @"V9GfedXBsamshd7XrQQz8xMvHvNtp1gHVLyjsnjk54QH3xCxLr"};
     NSDictionary *parameters = @{@"image_request[image]": imgDataAsString, @"image_request[locale]": @"en_US"};
     UNIUrlConnection *asyncConnection = [[UNIRest post:^(UNISimpleRequest *request) {
         [request setUrl:@"https://camfind.p.mashape.com/image_requests"];
@@ -381,7 +381,7 @@ int count = 5;
     NSString *url = @"https://camfind.p.mashape.com/image_responses/";
     NSString *requestUrl = [NSString stringWithFormat:@"%@%@", url, _token];
     
-    NSDictionary *headers = @{@"X-Mashape-Key": @"horcs5Q9Ddmsh1lzJ9dhI2q2h3D1p1cvrI0jsnYzNbOKZ4M16r", @"Accept": @"application/json"};
+    NSDictionary *headers = @{@"X-Mashape-Key": @"V9GfedXBsamshd7XrQQz8xMvHvNtp1gHVLyjsnjk54QH3xCxLr", @"Accept": @"application/json"};
     UNIUrlConnection *asyncConnection = [[UNIRest get:^(UNISimpleRequest *request) {
         [request setUrl:requestUrl];
         [request setHeaders:headers];
