@@ -232,12 +232,12 @@ int count = 5;
             // Save image to camera roll so that we can get a path for the image to send to the API later
             if (image != nil) {
                 AudioServicesPlaySystemSound(1108);
-                NSString *imgDataAsString = [UIImagePNGRepresentation(image) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];;
+                //NSString *imgDataAsString = [UIImagePNGRepresentation(image) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];;
                 
                 // TODO: uncomment this line to enable API searching
                 //[self getTokenWithImgData:imageUrl];
-                // testing function for flow, remove this when above line gets uncommented
-                [self setValue:@"apple fruit" forKey:@"objectDescription"];
+                //testing function for flow, remove this when above line gets uncommented
+                [self setValue:@"bottle" forKey:@"objectDescription"];
             }
         }
     }];

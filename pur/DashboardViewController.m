@@ -42,6 +42,7 @@ NSMutableArray *faceView_area_sizes;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
     // Initialize elements
     faceView_centres = [[NSMutableArray alloc] init];
     faceView_area_sizes = [[NSMutableArray alloc] init];
