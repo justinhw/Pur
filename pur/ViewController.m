@@ -59,8 +59,51 @@ int count = 5;
                                     repeats:YES];
     
     // Initialize arrays
-    recycling_terms = [NSArray arrayWithObjects:@"bottle", @"cardboard", @"paper", nil];
-    compost_terms = [NSArray arrayWithObjects:@"banana", @"apple", @"fruit", @"vegetable", nil];
+    recycling_terms = [NSArray arrayWithObjects:
+                       @"bottle",
+                       @"cardboard",
+                       @"paper",
+                       @"carton",
+                       @"box",
+                       @"can",
+                       @"book",
+                       @"metal",
+                       @"glass",
+                       @"sprite",
+                       @"coke",
+                       @"nestea",
+                       @"fanta",
+                       @"aluminum",
+                       @"foil",
+                       @"jar",
+                       @"jug",
+                       @"plastic",
+                       @"recycle",
+                       nil];
+    compost_terms = [NSArray arrayWithObjects:
+                     @"banana",
+                     @"apple",
+                     @"fruit",
+                     @"vegetable",
+                     @"bread",
+                     @"pepper",
+                     @"berry",
+                     @"core",
+                     @"grape",
+                     @"lettuce",
+                     @"food",
+                     @"peel",
+                     @"skin",
+                     @"tomatoe",
+                     @"onion",
+                     @"fries",
+                     @"tea bag",
+                     @"compost",
+                     @"meat",
+                     @"burger",
+                     @"bun",
+                     @"rice",
+                     nil];
     
     // KVO
     [self addObserver:self forKeyPath:@"token" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
